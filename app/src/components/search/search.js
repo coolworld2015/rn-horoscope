@@ -118,7 +118,8 @@ class Search extends Component {
                 }}>
                   <View
                     style={{
-                      marginTop: 3
+                      marginTop: 3,
+                      flex: 1
                     }}>
                       <Text style={{
                           fontSize: 18,
@@ -132,10 +133,6 @@ class Search extends Component {
                         marginTop: -1
                       }}>
                         <Switch
-                          style={{
-                            marginLeft: 90,
-                            paddingLeft: 20,
-                          }}
                           onValueChange={(value) => {
                               this.toggleTypeChange();
                               this.setState({
@@ -159,7 +156,8 @@ class Search extends Component {
                 }}>
                   <View
                     style={{
-                      marginTop: 3
+                      marginTop: 3,
+                      flex: 1
                     }}>
                       <Text style={{
                           fontSize: 18,
@@ -173,10 +171,6 @@ class Search extends Component {
                         marginTop: -1
                       }}>
                         <Switch
-                          style={{
-                            marginLeft: 105,
-                            paddingLeft: 20,
-                          }}
                           onValueChange={(value) => this.setState({
                               eventSwitchTitle: value
                           })}
