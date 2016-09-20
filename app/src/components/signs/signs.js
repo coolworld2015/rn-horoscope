@@ -20,7 +20,7 @@ import {
 
 import MoviesDetails from './moviesDetails';
 
-class Movies extends Component {
+class Signs extends Component {
     constructor(props){
         super(props);
 
@@ -31,93 +31,33 @@ class Movies extends Component {
         this.state = {
             dataSource: ds.cloneWithRows([]),
             searchQuery: props.searchQuery,
-            showProgress: true,
 						resultsCount: 0
         };
-
-      	this.getFavoritesMovies();
     }
 
-    getFavoritesMovies() {
-      AsyncStorage.getItem('rn-movies.movies')
-        .then(req => JSON.parse(req))
-        .then(json => {
-          this.setState({
-            dataSource: this.state.dataSource.cloneWithRows(json.sort(this.sort)),
-            resultsCount: json.length,
-            responseData: json
-          });
-        })
-        .catch(error => console.log(error))
-        .finally(()=> {
-          this.setState({
-            showProgress: false
-          });
-       });
+    componentWillMount() {
+      this.getSignsList();
     }
 
-    getMovies() {
-       fetch('https://itunes.apple.com/search?media=movie&term='
-             + this.state.searchQuery, {
-            method: 'get',
-            headers: {
-              'Accept': 'application/json',
-              'Content-Type': 'application/json'
-            }
-          })
-          .then((response)=> response.json())
-          .then((responseData)=> {
-             this.setState({
-               dataSource: this.state.dataSource.cloneWithRows(responseData.results),
-               resultsCount: responseData.results.length,
-               responseData: responseData.results
-             });
-       })
-         .catch((error)=> {
-             this.setState({
-               serverError: true
-             });
-       })
-         .finally(()=> {
-           this.setState({
-             showProgress: false
-           });
- 				});
-    }
-
-    sort(a, b) {
-        var nameA = a.trackName.toLowerCase(), nameB = b.trackName.toLowerCase();
-        if (nameA < nameB) {
-            return -1
+    getSignsList() {
+      var arrSigns = [
+        {
+          name: 'Aries',
+          interval: '03/21 - 04/19',
+          pic: './Aries.jpg'
+        },
+        {
+          name: 'Taurus',
+          interval: '04/20 - 05/20',
+          pic: './Aries.jpg'
         }
-        if (nameA > nameB) {
-            return 1
-        }
-        return 0;
-    }
+      ];
 
-    deleteMovie(id) {
-      var movies = [];
-
-      AsyncStorage.getItem('rn-movies.movies')
-        .then(req => JSON.parse(req))
-        .then(json => {
-
-          movies = [].concat(json);
-
-  console.log(movies);
-          for (var i = 0; i < movies.length; i++) {
-              if (movies[i].trackId == id) {
-                  movies.splice(i, 1);
-                  break;
-              }
-          }
-
-          AsyncStorage.setItem('rn-movies.movies', JSON.stringify(movies))
-            .then(json => this.props.navigator.pop());
-
-        })
-        .catch(error => console.log(error))
+      this.setState({
+        dataSource: this.state.dataSource.cloneWithRows(arrSigns),
+        resultsCount: arrSigns.length,
+        responseData: arrSigns
+      });
     }
 
     pressRow(rowData){
@@ -146,49 +86,52 @@ class Movies extends Component {
 
     renderRow(rowData){
         var image = <View />;
-        if (rowData) {
-          if(rowData.artworkUrl100){
-              image = <Image
-                      source={{uri: rowData.artworkUrl100.replace('100x100bb.jpg', '500x500bb.jpg')}}
-                      style={{
-                        height: 95,
-                        width: 75,
-                        borderRadius: 20,
-                        margin: 20
-                        }}
-                    />;
-          } else {
+
+        switch (rowData.name) {
+          case 'Aries':
             image = <Image
-                    source={{uri: rowData.pic}}
+                    source={require('../../../img/Aries.jpg')}
                     style={{
-                      height: 95,
-                      width: 75,
+                      height: 115,
+                      width: 105,
                       borderRadius: 20,
                       margin: 20
                       }}
                   />;
+            break;
+
+            case 'Taurus':
+              image = <Image
+                      source={require('../../../img/Taurus.jpg')}
+                      style={{
+                        height: 115,
+                        width: 105,
+                        borderRadius: 20,
+                        margin: 20
+                        }}
+                    />;
+              break;
           }
-        }
+
         return (
           	<TouchableHighlight
                 onPress={()=> this.pressRow(rowData)}
                 underlayColor='#ddd'
           	>
+
             <View style={styles.imgsList}>
 
-                {image}
+              {image}
 
-                <View style={{
-                             flex: 1,
-                             flexDirection: 'column',
-                             justifyContent: 'space-between'
-                            }}>
-                    <Text>{rowData.trackName}</Text>
-              			<Text>{rowData.releaseDate.split('-')[0]}</Text>
-                    <Text>{rowData.country}</Text>
-                    <Text>{rowData.primaryGenreName}</Text>
-                    <Text>{rowData.artistName}</Text>
+              <View style={{
+                 flex: 1,
+                 flexDirection: 'column',
+                 justifyContent: 'space-between'
+                }}>
+                  <Text>{rowData.name}</Text>
+                  <Text>{rowData.interval}</Text>
               </View>
+
             </View>
           </TouchableHighlight>
         );
@@ -196,13 +139,7 @@ class Movies extends Component {
 
     refreshData(event){
       if (event.nativeEvent.contentOffset.y <= -100) {
-
-        this.setState({
-            showProgress: true,
-            serverError: false,
-            //resultsCount: event.nativeEvent.contentOffset.y
-        });
-        setTimeout(() => {this.getFavoritesMovies()}, 300);
+        setTimeout(() => {this.getSignsList()}, 300);
       }
     }
 
@@ -244,7 +181,7 @@ class Movies extends Component {
               return;
             }
 					  var arr = [].concat(this.state.responseData);
-					  var items = arr.filter((el) => el.trackName.indexOf(text) >= 0);
+					  var items = arr.filter((el) => el.name.indexOf(text) >= 0);
 					  this.setState({
 						 dataSource: this.state.dataSource.cloneWithRows(items),
 						 resultsCount: items.length,
@@ -261,6 +198,7 @@ class Movies extends Component {
             onScroll={this.refreshData.bind(this)} scrollEventThrottle={16}
             style={{marginTop: 0, marginBottom: 0}}>
             <ListView
+              style={{marginTop: -65, marginBottom: 0}}
               dataSource={this.state.dataSource}
               renderRow={this.renderRow.bind(this)}
             />
@@ -314,4 +252,4 @@ const styles = StyleSheet.create({
     }
 });
 
-module.exports = Movies;
+module.exports = Signs;

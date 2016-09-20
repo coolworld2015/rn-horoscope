@@ -18,7 +18,7 @@ import {
 } from 'react-native';
 
 import Search from '../search/search';
-import Movies from '../movies/movies';
+import Signs from '../signs/signs';
 
 class AppContainer extends Component {
     constructor(props){
@@ -53,7 +53,7 @@ class AppContainer extends Component {
         <TabBarIOS style={styles.AppContainer}>
 
         <TabBarIOS.Item
-            title="Movies"
+            title="Signs"
             systemIcon="favorites"
             selected={this.state.selectedTab == 'Movies'}
             onPress={()=> this.setState({selectedTab: 'Movies'})}>
@@ -63,8 +63,8 @@ class AppContainer extends Component {
                     flex: 1
                 }}
                 initialRoute={{
-                    component: Movies,
-                    title: 'Favorites',
+                    component: Signs,
+                    title: 'List of signs',
                     passProps: {
                         searchQuery: 'Sex'
                     }
@@ -74,7 +74,7 @@ class AppContainer extends Component {
 
             <TabBarIOS.Item
                 title="Search"
-      					systemIcon="search"
+      					systemIcon="contacts"
                 selected={this.state.selectedTab == 'Search'}
                 onPress={()=> this.setState({selectedTab: 'Search'})}>
 
