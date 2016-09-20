@@ -277,7 +277,7 @@ class Signs extends Component {
                     onScroll={this.refreshData.bind(this)} scrollEventThrottle={16}
                     style={{marginTop: 0, marginBottom: 0}}>
                     <ListView
-                        style={{marginTop: -65, marginBottom: 0}}
+                        style={{marginTop: -65, marginBottom: -30}}
                         dataSource={this.state.dataSource}
                         renderRow={this.renderRow.bind(this)}
                     />
