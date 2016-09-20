@@ -42,6 +42,18 @@ class Signs extends Component {
     getSignsList() {
         var arrSigns = [
             {
+                name: 'Capricorn',
+                interval: '12/22 - 01/19'
+            },
+            {
+                name: 'Aquarius',
+                interval: '01/20 - 02/18'
+            },
+            {
+                name: 'Pisces',
+                interval: '02/19 - 03/20'
+            },
+            {
                 name: 'Aries',
                 interval: '03/21 - 04/19'
             },
@@ -76,18 +88,6 @@ class Signs extends Component {
             {
                 name: 'Sagittarius',
                 interval: '11/22 - 12/21'
-            },
-            {
-                name: 'Capricorn',
-                interval: '12/22 - 01/19'
-            },
-            {
-                name: 'Aquarius',
-                interval: '01/20 - 02/18'
-            },
-            {
-                name: 'Pisces',
-                interval: '02/19 - 03/20'
             }
         ];
 
@@ -204,8 +204,8 @@ class Signs extends Component {
                         flexDirection: 'column',
                         justifyContent: 'space-between'
                     }}>
-                        <Text>{rowData.name}</Text>
-                        <Text>{rowData.interval}</Text>
+                        <Text style={styles.text}>{rowData.name}</Text>
+                        <Text style={styles.text}>{rowData.interval}</Text>
                     </View>
 
                 </View>
@@ -277,7 +277,7 @@ class Signs extends Component {
                     onScroll={this.refreshData.bind(this)} scrollEventThrottle={16}
                     style={{marginTop: 0, marginBottom: 0}}>
                     <ListView
-                        style={{marginTop: -65, marginBottom: -30}}
+                        style={{marginTop: -65, marginBottom: -45}}
                         dataSource={this.state.dataSource}
                         renderRow={this.renderRow.bind(this)}
                     />
@@ -304,11 +304,9 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1,
         backgroundColor: '#fff'
     },
-    countHeader: {
-        fontSize: 16,
-        textAlign: 'center',
-        padding: 15,
-        backgroundColor: '#F5FCFF',
+    text: {
+        fontSize: 18,
+        fontWeight: 'bold'
     },
     countFooter: {
         fontSize: 16,

@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 import React, { Component } from 'react';
 import {
@@ -25,7 +25,7 @@ class AppContainer extends Component {
         super(props);
 
         this.state = {
-        }
+        };
 
         this.init();
     }
@@ -41,7 +41,7 @@ class AppContainer extends Component {
             });
           } else {
             this.setState({
-              selectedTab: 'Movies'
+              selectedTab: 'Signs'
             });
           }
         })
@@ -55,8 +55,8 @@ class AppContainer extends Component {
         <TabBarIOS.Item
             title="Signs"
             systemIcon="favorites"
-            selected={this.state.selectedTab == 'Movies'}
-            onPress={()=> this.setState({selectedTab: 'Movies'})}>
+            selected={this.state.selectedTab == 'Signs'}
+            onPress={()=> this.setState({selectedTab: 'Signs'})}>
 
             <NavigatorIOS
                 style={{
@@ -73,10 +73,10 @@ class AppContainer extends Component {
         </TabBarIOS.Item>
 
             <TabBarIOS.Item
-                title="Search"
+                title="Friends"
       					systemIcon="contacts"
-                selected={this.state.selectedTab == 'Search'}
-                onPress={()=> this.setState({selectedTab: 'Search'})}>
+                selected={this.state.selectedTab == 'Friends'}
+                onPress={()=> this.setState({selectedTab: 'Friends'})}>
 
                 <NavigatorIOS
                     style={{
@@ -84,7 +84,7 @@ class AppContainer extends Component {
                     }}
                     initialRoute={{
                         component: Search,
-                        title: 'Search'
+                        title: 'List of friends'
                 		}}
                />
             </TabBarIOS.Item>
