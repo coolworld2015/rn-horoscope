@@ -64,24 +64,16 @@ class MoviesDetails extends Component {
           {image}
 
           <Text style={styles.welcome}>
-            {this.state.pushEvent.trackName}
+            {this.state.pushEvent.signName}
           </Text>
 
-          <Text style={styles.welcome}>
-            {this.state.pushEvent.releaseDate.split('-')[0]}
-          </Text>
+
 
           <Text style={styles.welcome}>
-            {this.state.pushEvent.country}
+            {this.state.pushEvent.details.scope}
           </Text>
 
-          <Text style={styles.welcome}>
-            {this.state.pushEvent.primaryGenreName}
-          </Text>
 
-          <Text style={styles.welcome}>
-            {this.state.pushEvent.artistName}
-          </Text>
 
           <Text style={{
             fontSize: 16,

@@ -33,10 +33,14 @@ class Signs extends Component {
             searchQuery: props.searchQuery,
             resultsCount: 0
         };
+
+        setTimeout(() => {
+            this.getSignsList()
+        }, 100);
     }
 
-    componentWillMount() {
-        this.getSignsList();
+    componentDidMount() {
+        //this.getSignsList();
     }
 
     getSignsList() {
@@ -97,29 +101,83 @@ class Signs extends Component {
         });
     }
 
-    pressRow(rowData) {
-        this.props.navigator.push({
-            title: rowData.trackName,
-            component: MoviesDetails,
-            rightButtonTitle: 'Delete',
-            onRightButtonPress: () => {
-                Alert.alert(
-                    'Delete',
-                    'Are you sure you want to delete ' + rowData.trackName + '?',
-                    [
-                        {text: 'Cancel', onPress: () => console.log('Cancel Pressed!')},
-                        {
-                            text: 'OK', onPress: () => {
-                            this.deleteMovie(rowData.trackId);
-                        }
-                        },
-                    ]
-                );
-            },
-            passProps: {
-                pushEvent: rowData
+    getHoroscope() {
+        fetch('http://m-api.californiapsychics.com/horoscope?format=json'
+            //+ this.state.searchQuery, {
+            + "&sign=" + 'Aries' + "&date=" + '09/21', {
+            method: 'get',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
             }
+        })
+            .then((response)=> response.json())
+            .then((responseData)=> {
+                console.log(responseData);
+                var data = responseData[0];
+                this.props.navigator.push({
+                    title: data.signName,
+                    component: MoviesDetails,
+                    rightButtonTitle: 'Delete',
+                    onRightButtonPress: () => {
+                        Alert.alert(
+                            'Delete',
+                            'Are you sure you want to delete ' + rowData.trackName + '?',
+                            [
+                                {text: 'Cancel', onPress: () => console.log('Cancel Pressed!')},
+                                {
+                                    text: 'OK', onPress: () => {
+                                    this.deleteMovie(rowData.trackId);
+                                }
+                                },
+                            ]
+                        );
+                    },
+                    passProps: {
+                        pushEvent: data
+                    }
+                });
+            })
+            .catch((error)=> {
+                this.setState({
+                    serverError: true
+                });
+            })
+            .finally(()=> {
+                this.setState({
+                    showProgress: false
+                });
+            });
+    }
+
+    pressRow(rowData) {
+        this.setState({
+            showProgress: true
         });
+        this.getHoroscope();
+
+        // this.props.navigator.push({
+        //     title: rowData.trackName,
+        //     component: MoviesDetails,
+        //     rightButtonTitle: 'Delete',
+        //     onRightButtonPress: () => {
+        //         Alert.alert(
+        //             'Delete',
+        //             'Are you sure you want to delete ' + rowData.trackName + '?',
+        //             [
+        //                 {text: 'Cancel', onPress: () => console.log('Cancel Pressed!')},
+        //                 {
+        //                     text: 'OK', onPress: () => {
+        //                     this.deleteMovie(rowData.trackId);
+        //                 }
+        //                 },
+        //             ]
+        //         );
+        //     },
+        //     passProps: {
+        //         pushEvent: rowData
+        //     }
+        // });
     }
 
     renderRow(rowData) {
@@ -212,6 +270,18 @@ class Signs extends Component {
         );
     }
 
+    refreshData(event){
+        if (event.nativeEvent.contentOffset.y <= -100) {
+
+            this.setState({
+                showProgress: true,
+                serverError: false,
+                //resultsCount: event.nativeEvent.contentOffset.y
+            });
+            setTimeout(() => {this.getSignsList()}, 300);
+        }
+    }
+
     render() {
         var errorCtrl = <View />;
 
@@ -266,7 +336,6 @@ class Signs extends Component {
 
                 <ScrollView>
                     <ListView
-                        style={{marginTop: -65, marginBottom: -45}}
                         dataSource={this.state.dataSource}
                         renderRow={this.renderRow.bind(this)}
                     />
