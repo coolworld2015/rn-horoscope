@@ -263,6 +263,20 @@ class Signs extends Component {
         }
     }
 
+    onChangeText(text) {
+        if (this.state.dataSource == undefined) {
+            return;
+        }
+        var arr = [].concat(this.state.responseData);
+        arr = arr[0]._dataBlob.s1;
+
+        var items = arr.filter((el) => el.name.indexOf(text) >= 0);
+        this.setState({
+            dataSource: this.state.dataSource.cloneWithRows(items),
+            resultsCount: items.length,
+        })
+    }
+
     render() {
         var errorCtrl = <View />;
 
@@ -297,19 +311,7 @@ class Signs extends Component {
                         borderColor: 'lightgray',
                         borderRadius: 0
                     }}
-                       onChangeText={(text)=> {
-                           if (this.state.dataSource == undefined) {
-                               return;
-                           }
-                           var arr = [].concat(this.state.responseData);
-                           var arr1 = arr[0]._dataBlob.s1;
-console.log(this.state.dataSource);
-                           var items = arr1.filter((el) => el.name.indexOf(text) >= 0);
-                           this.setState({
-                               dataSource: this.state.dataSource.cloneWithRows(items),
-                               resultsCount: items.length,
-                           })
-                       }}
+                       onChangeText={this.onChangeText.bind(this)}
                        placeholder="Search here">
                     </TextInput>
 
