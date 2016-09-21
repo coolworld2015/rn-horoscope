@@ -93,8 +93,7 @@ class Signs extends Component {
 
         this.setState({
             dataSource: this.state.dataSource.cloneWithRows(arrSigns),
-            resultsCount: arrSigns.length,
-            responseData: arrSigns
+            resultsCount: arrSigns.length
         });
     }
 
@@ -213,14 +212,6 @@ class Signs extends Component {
         );
     }
 
-    refreshData(event) {
-        if (event.nativeEvent.contentOffset.y <= -100) {
-            setTimeout(() => {
-                this.getSignsList()
-            }, 300);
-        }
-    }
-
     render() {
         var errorCtrl = <View />;
 
@@ -273,9 +264,7 @@ class Signs extends Component {
 
                 </View>
 
-                <ScrollView
-                    onScroll={this.refreshData.bind(this)} scrollEventThrottle={16}
-                    style={{marginTop: 0, marginBottom: 0}}>
+                <ScrollView>
                     <ListView
                         style={{marginTop: -65, marginBottom: -45}}
                         dataSource={this.state.dataSource}
