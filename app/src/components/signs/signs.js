@@ -97,6 +97,7 @@ class Signs extends Component {
         this.setState({
             dataSource: this.state.dataSource.cloneWithRows(arrSigns),
             resultsCount: arrSigns.length,
+            responseData: this.state.dataSource.cloneWithRows(arrSigns),
             showProgress: false
         });
     }
@@ -156,31 +157,7 @@ class Signs extends Component {
     }
 
     pressRow(rowData) {
-
         this.getHoroscope();
-
-        // this.props.navigator.push({
-        //     title: rowData.trackName,
-        //     component: MoviesDetails,
-        //     rightButtonTitle: 'Delete',
-        //     onRightButtonPress: () => {
-        //         Alert.alert(
-        //             'Delete',
-        //             'Are you sure you want to delete ' + rowData.trackName + '?',
-        //             [
-        //                 {text: 'Cancel', onPress: () => console.log('Cancel Pressed!')},
-        //                 {
-        //                     text: 'OK', onPress: () => {
-        //                     this.deleteMovie(rowData.trackId);
-        //                 }
-        //                 },
-        //             ]
-        //         );
-        //     },
-        //     passProps: {
-        //         pushEvent: rowData
-        //     }
-        // });
     }
 
     renderRow(rowData) {
@@ -273,15 +250,16 @@ class Signs extends Component {
         );
     }
 
-    refreshData(event){
+    refreshData(event) {
         if (event.nativeEvent.contentOffset.y <= -100) {
 
             this.setState({
                 showProgress: true,
-                serverError: false,
-                //resultsCount: event.nativeEvent.contentOffset.y
+                serverError: false
             });
-            setTimeout(() => {this.getSignsList()}, 300);
+            setTimeout(() => {
+                this.getSignsList();
+            }, 300);
         }
     }
 
@@ -319,18 +297,20 @@ class Signs extends Component {
                         borderColor: 'lightgray',
                         borderRadius: 0
                     }}
-                               onChangeText={(text)=> {
-                                   if (this.state.responseData == undefined) {
-                                       return;
-                                   }
-                                   var arr = [].concat(this.state.responseData);
-                                   var items = arr.filter((el) => el.name.indexOf(text) >= 0);
-                                   this.setState({
-                                       dataSource: this.state.dataSource.cloneWithRows(items),
-                                       resultsCount: items.length,
-                                   })
-                               }}
-                               placeholder="Search here">
+                       onChangeText={(text)=> {
+                           if (this.state.dataSource == undefined) {
+                               return;
+                           }
+                           var arr = [].concat(this.state.responseData);
+                           var arr1 = arr[0]._dataBlob.s1;
+console.log(this.state.dataSource);
+                           var items = arr1.filter((el) => el.name.indexOf(text) >= 0);
+                           this.setState({
+                               dataSource: this.state.dataSource.cloneWithRows(items),
+                               resultsCount: items.length,
+                           })
+                       }}
+                       placeholder="Search here">
                     </TextInput>
 
                     {errorCtrl}
@@ -339,7 +319,9 @@ class Signs extends Component {
 
                 {/*style={{marginTop: -65, marginBottom: -45}}*/}
 
-                <ScrollView>
+                <ScrollView
+                    onScroll={this.refreshData.bind(this)} scrollEventThrottle={16}
+                    style={{marginTop: 0, marginBottom: 0}}>
                     <ListView
                         dataSource={this.state.dataSource}
                         renderRow={this.renderRow.bind(this)}
