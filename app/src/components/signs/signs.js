@@ -18,7 +18,7 @@ import {
     Alert
 } from 'react-native';
 
-import MoviesDetails from './moviesDetails';
+import HoroscopeDetails from './horoscopeDetails';
 
 class Signs extends Component {
     constructor(props) {
@@ -35,12 +35,11 @@ class Signs extends Component {
         };
 
         setTimeout(() => {
-            this.getSignsList()
+            this.setState({
+                showProgress: true
+            });
+            this.getSignsList();
         }, 100);
-    }
-
-    componentDidMount() {
-        //this.getSignsList();
     }
 
     getSignsList() {
@@ -97,63 +96,67 @@ class Signs extends Component {
 
         this.setState({
             dataSource: this.state.dataSource.cloneWithRows(arrSigns),
-            resultsCount: arrSigns.length
+            resultsCount: arrSigns.length,
+            showProgress: false
         });
     }
 
     getHoroscope() {
-        fetch('http://m-api.californiapsychics.com/horoscope?format=json'
-            //+ this.state.searchQuery, {
-            + "&sign=" + 'Aries' + "&date=" + '09/21', {
-            method: 'get',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            }
-        })
-            .then((response)=> response.json())
-            .then((responseData)=> {
-                console.log(responseData);
-                var data = responseData[0];
-                this.props.navigator.push({
-                    title: data.signName,
-                    component: MoviesDetails,
-                    rightButtonTitle: 'Delete',
-                    onRightButtonPress: () => {
-                        Alert.alert(
-                            'Delete',
-                            'Are you sure you want to delete ' + rowData.trackName + '?',
-                            [
-                                {text: 'Cancel', onPress: () => console.log('Cancel Pressed!')},
-                                {
-                                    text: 'OK', onPress: () => {
-                                    this.deleteMovie(rowData.trackId);
-                                }
-                                },
-                            ]
-                        );
-                    },
-                    passProps: {
-                        pushEvent: data
-                    }
-                });
-            })
-            .catch((error)=> {
-                this.setState({
-                    serverError: true
-                });
-            })
-            .finally(()=> {
-                this.setState({
-                    showProgress: false
-                });
-            });
+        this.props.navigator.push({
+            title: 'Horoscope',
+            component: HoroscopeDetails
+        });
+
+        // fetch('http://m-api.californiapsychics.com/horoscope?format=json'
+        //     //+ this.state.searchQuery, {
+        //     + "&sign=" + 'Aries' + "&date=" + '09/21', {
+        //     method: 'get',
+        //     headers: {
+        //         'Accept': 'application/json',
+        //         'Content-Type': 'application/json'
+        //     }
+        // })
+        //     .then((response)=> response.json())
+        //     .then((responseData)=> {
+        //         console.log(responseData);
+        //         var data = responseData[0];
+        //         this.props.navigator.push({
+        //             title: data.signName,
+        //             component: HoroscopeDetails,
+        //             rightButtonTitle: 'Delete',
+        //             onRightButtonPress: () => {
+        //                 Alert.alert(
+        //                     'Delete',
+        //                     'Are you sure you want to delete ' + rowData.trackName + '?',
+        //                     [
+        //                         {text: 'Cancel', onPress: () => console.log('Cancel Pressed!')},
+        //                         {
+        //                             text: 'OK', onPress: () => {
+        //                             this.deleteMovie(rowData.trackId);
+        //                         }
+        //                         },
+        //                     ]
+        //                 );
+        //             },
+        //             passProps: {
+        //                 pushEvent: data
+        //             }
+        //         });
+        //     })
+        //     .catch((error)=> {
+        //         this.setState({
+        //             serverError: true
+        //         });
+        //     })
+        //     .finally(()=> {
+        //         this.setState({
+        //             showProgress: false
+        //         });
+        //     });
     }
 
     pressRow(rowData) {
-        this.setState({
-            showProgress: true
-        });
+
         this.getHoroscope();
 
         // this.props.navigator.push({
@@ -333,6 +336,8 @@ class Signs extends Component {
                     {errorCtrl}
 
                 </View>
+
+                {/*style={{marginTop: -65, marginBottom: -45}}*/}
 
                 <ScrollView>
                     <ListView
