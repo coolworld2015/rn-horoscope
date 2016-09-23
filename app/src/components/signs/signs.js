@@ -375,4 +375,4 @@ const styles = StyleSheet.create({
     }
 });
 
-module.exports = Signs;
+export default Signs;

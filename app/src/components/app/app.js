@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 import React, { Component } from 'react';
 import {
@@ -33,4 +33,4 @@ class App extends Component {
   }
 }
 
-module.exports = App;
+export default App;

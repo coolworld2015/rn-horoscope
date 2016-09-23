@@ -171,4 +171,4 @@ const styles = StyleSheet.create({
     }
 });
 
-module.exports = AppContainer;
+export default AppContainer;
