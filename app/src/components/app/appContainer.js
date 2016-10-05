@@ -17,8 +17,8 @@ import {
     AsyncStorage
 } from 'react-native';
 
-import Search from '../search/search';
 import Signs from '../signs/signs';
+import Users from '../users/users';
 
 class AppContainer extends Component {
     constructor(props) {
@@ -82,7 +82,7 @@ class AppContainer extends Component {
                             flex: 1
                         }}
                         initialRoute={{
-                            component: Search,
+                            component: Users,
                             title: 'List of friends'
                         }}
                     />

@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 import React, {Component} from 'react';
 import {
@@ -13,12 +13,13 @@ import {
     ActivityIndicator,
     TabBarIOS,
     NavigatorIOS,
-    TextInput
+    TextInput,
+    Alert
 } from 'react-native';
 
-import SearchDetails from './searchDetails';
+import UserDetails from './userDetails';
 
-class SearchResults extends Component {
+class Users extends Component {
     constructor(props) {
         super(props);
 
@@ -28,17 +29,16 @@ class SearchResults extends Component {
 
         this.state = {
             dataSource: ds.cloneWithRows([]),
-            searchQuery: props.searchQuery,
             showProgress: true,
+            serverError: false,
             resultsCount: 0
         };
 
-        this.getMovies();
+        this.getUsers();
     }
 
-    getMovies() {
-        fetch('https://itunes.apple.com/search?media=movie&term='
-            + this.state.searchQuery, {
+    getUsers() {
+        fetch('http://ui-base.herokuapp.com/api/users/get', {
             method: 'get',
             headers: {
                 'Accept': 'application/json',
@@ -47,10 +47,11 @@ class SearchResults extends Component {
         })
             .then((response)=> response.json())
             .then((responseData)=> {
+
                 this.setState({
-                    dataSource: this.state.dataSource.cloneWithRows(responseData.results),
-                    resultsCount: responseData.results.length,
-                    responseData: responseData.results
+                    dataSource: this.state.dataSource.cloneWithRows(responseData.sort(this.sort)),
+                    resultsCount: responseData.length,
+                    responseData: responseData
                 });
             })
             .catch((error)=> {
@@ -65,10 +66,68 @@ class SearchResults extends Component {
             });
     }
 
+    sort(a, b) {
+        var nameA = a.name.toLowerCase(), nameB = b.name.toLowerCase();
+        if (nameA < nameB) {
+            return -1
+        }
+        if (nameA > nameB) {
+            return 1
+        }
+        return 0;
+    }
+
+    deleteUser(id) {
+        this.setState({
+            showProgress: true
+        });
+
+        fetch('http://ui-base.herokuapp.com/api/users/delete/', {
+            method: 'POST',
+            body: JSON.stringify({
+                id: id
+            }),
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        })
+
+            .then((responseData)=> {
+            })
+            .catch((error)=> {
+                console.log(error);
+                this.setState({
+                    serverError: true
+                });
+            })
+            .finally(()=> {
+                this.setState({
+                    showProgress: false
+                });
+                this.props.navigator.pop();
+            });
+    }
+
     pressRow(rowData) {
         this.props.navigator.push({
-            title: rowData.trackName,
-            component: SearchDetails,
+            title: 'Edit',
+            component: UserDetails,
+            rightButtonTitle: 'Delete',
+            onRightButtonPress: () => {
+                Alert.alert(
+                    'Delete user',
+                    'Are you sure you want to delete user ' + rowData.name + '?',
+                    [
+                        {text: 'Cancel', onPress: () => console.log('Cancel Pressed!')},
+                        {
+                            text: 'OK', onPress: () => {
+                            this.deleteUser(rowData.id);
+                        }
+                        },
+                    ]
+                );
+            },
             passProps: {
                 pushEvent: rowData
             }
@@ -81,23 +140,23 @@ class SearchResults extends Component {
                 onPress={()=> this.pressRow(rowData)}
                 underlayColor='#ddd'
             >
-                <View style={styles.imgsList}>
-                    <Image
-                        source={{uri: rowData.artworkUrl100.replace('100x100bb.jpg', '500x500bb.jpg')}}
-                        style={styles.img}
-                    />
-                    <View style={{
-                        flex: 1,
-                        flexDirection: 'column',
-                        justifyContent: 'space-between'
-                    }}>
-                        <Text>{rowData.trackName}</Text>
-                        <Text>{rowData.releaseDate.split('-')[0]}</Text>
-                        <Text>{rowData.country}</Text>
-                        <Text>{rowData.primaryGenreName}</Text>
-                        <Text>{rowData.artistName}</Text>
-                    </View>
+
+                <View style={{
+                    flex: 1,
+                    flexDirection: 'row',
+                    padding: 20,
+                    alignItems: 'center',
+                    borderColor: '#D7D7D7',
+                    borderBottomWidth: 1,
+                    backgroundColor: '#fff'
+                }}>
+
+                    <Text style={{backgroundColor: '#fff'}}>
+                        {rowData.name}
+                    </Text>
+
                 </View>
+
             </TouchableHighlight>
         );
     }
@@ -107,16 +166,23 @@ class SearchResults extends Component {
 
             this.setState({
                 showProgress: true,
-                serverError: false,
                 resultsCount: event.nativeEvent.contentOffset.y
             });
             setTimeout(() => {
-                this.getMovies()
+                this.getUsers()
             }, 300);
         }
     }
 
+
     render() {
+        var swipeoutBtns = [
+            {
+                text: 'Delete',
+                backgroundColor: 'red',
+            }
+        ]
+
         var errorCtrl = <View />;
 
         if (this.state.serverError) {
@@ -151,13 +217,13 @@ class SearchResults extends Component {
                     }}
                                onChangeText={(text)=> {
                                    var arr = [].concat(this.state.responseData);
-                                   var items = arr.filter((el) => el.trackName.indexOf(text) >= 0);
+                                   var items = arr.filter((el) => el.name.indexOf(text) != -1);
                                    this.setState({
                                        dataSource: this.state.dataSource.cloneWithRows(items),
                                        resultsCount: items.length,
                                    })
                                }}
-                               placeholder="Search here">
+                               placeholder="Search">
                     </TextInput>
 
                     {errorCtrl}
@@ -174,26 +240,21 @@ class SearchResults extends Component {
                 </ScrollView>
 
                 <View style={{marginBottom: 49}}>
-                    <Text style={styles.countFooter}>
-                        {this.state.resultsCount} entries were found.
-                    </Text>
+                        <Text style={styles.countFooter}>
+                            {this.state.resultsCount} entries were found.
+                        </Text>
                 </View>
-
             </View>
         )
     }
 }
 
-
 const styles = StyleSheet.create({
-    imgsList: {
+    AppContainer: {
         flex: 1,
-        flexDirection: 'row',
-        padding: 0,
+        justifyContent: 'center',
         alignItems: 'center',
-        borderColor: '#D7D7D7',
-        borderBottomWidth: 1,
-        backgroundColor: '#fff'
+        backgroundColor: 'gray',
     },
     countHeader: {
         fontSize: 16,
@@ -208,17 +269,49 @@ const styles = StyleSheet.create({
         borderColor: '#D7D7D7',
         backgroundColor: 'whitesmoke'
     },
-    img: {
-        height: 95,
-        width: 75,
-        borderRadius: 20,
-        margin: 20
+    welcome: {
+        fontSize: 20,
+        textAlign: 'center',
+        margin: 20,
+    },
+    loginInput: {
+        height: 50,
+        marginTop: 10,
+        padding: 4,
+        fontSize: 18,
+        borderWidth: 1,
+        borderColor: 'lightgray',
+        borderRadius: 0,
+        color: 'gray'
+    },
+    button: {
+        height: 50,
+        backgroundColor: '#48BBEC',
+        borderColor: '#48BBEC',
+        alignSelf: 'stretch',
+        marginTop: 10,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 5
+    },
+    buttonText: {
+        color: '#fff',
+        fontSize: 24
+    },
+    loader: {
+        marginTop: 20
     },
     error: {
         color: 'red',
         paddingTop: 10,
         textAlign: 'center'
+    },
+    img: {
+        height: 95,
+        width: 75,
+        borderRadius: 20,
+        margin: 20
     }
 });
 
-module.exports = SearchResults;
+export default Users;
