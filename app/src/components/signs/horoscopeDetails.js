@@ -55,7 +55,7 @@ class HoroscopeDetails extends Component {
 
                 var data = responseData[0];
 
-                console.log(data.details.scope)
+                console.log(data.details)
 
                 this.setState({
                     data: data,
@@ -76,29 +76,70 @@ class HoroscopeDetails extends Component {
     }
 
     render() {
-        // var image = <View />;
-        //
-        // if (this.state.pushEvent.artworkUrl100) {
-        //     image = <Image
-        //         source={{uri: this.state.pushEvent.artworkUrl100.replace('100x100bb.jpg', '500x500bb.jpg')}}
-        //         style={{
-        //             height: 300,
-        //             width: 200,
-        //             borderRadius: 20,
-        //             margin: 20
-        //         }}
-        //     />;
-        // } else {
-        //     image = <Image
-        //         source={{uri: this.state.pushEvent.pic}}
-        //         style={{
-        //             height: 300,
-        //             width: 200,
-        //             borderRadius: 20,
-        //             margin: 20
-        //         }}
-        //     />;
-        // }
+        var image = <View />;
+
+        switch (this.props.pushEvent.name) {
+            case 'Aries':
+                image = <Image source={require('../../../img/Aries.jpg')}
+                               style={styles.img}/>;
+                break;
+
+            case 'Taurus':
+                image = <Image source={require('../../../img/Taurus.jpg')}
+                               style={styles.img}/>;
+                break;
+
+            case 'Gemini':
+                image = <Image source={require('../../../img/Gemini.jpg')}
+                               style={styles.img}/>;
+                break;
+
+            case 'Cancer':
+                image = <Image source={require('../../../img/Cancer.jpg')}
+                               style={styles.img}/>;
+                break;
+
+            case 'Leo':
+                image = <Image source={require('../../../img/Leo.jpg')}
+                               style={styles.img}/>;
+                break;
+
+            case 'Virgo':
+                image = <Image source={require('../../../img/Virgo.jpg')}
+                               style={styles.img}/>;
+                break;
+
+            case 'Libra':
+                image = <Image source={require('../../../img/Libra.jpg')}
+                               style={styles.img}/>;
+                break;
+
+            case 'Scorpio':
+                image = <Image source={require('../../../img/Scorpio.jpg')}
+                               style={styles.img}/>;
+                break;
+
+            case 'Sagittarius':
+                image = <Image source={require('../../../img/Sagittarius.jpg')}
+                               style={styles.img}/>;
+                break;
+
+            case 'Capricorn':
+                image = <Image source={require('../../../img/Capricorn.jpg')}
+                               style={styles.img}/>;
+                break;
+
+            case 'Aquarius':
+                image = <Image source={require('../../../img/Aquarius.jpg')}
+                               style={styles.img}/>;
+                break;
+
+            case 'Pisces':
+                image = <Image source={require('../../../img/Pisces.jpg')}
+                               style={styles.img}/>;
+                break;
+
+        }
 
         var errorCtrl = <View />;
 
@@ -125,30 +166,14 @@ class HoroscopeDetails extends Component {
             <ScrollView>
                 <View style={{
                     flex: 1,
-                    //paddingTop: 20,
                     justifyContent: 'flex-start',
                     alignItems: 'center',
                     marginTop: 65,
-                    //marginBottom: 45
+                    marginBottom: 65
                 }}>
                     {errorCtrl}
 
-                    <Image source={require('../../../img/Aries.jpg')}
-                           style={{
-                               height: 300,
-                               width: 300,
-                               borderRadius: 20,
-                               margin: 20
-                           }}/>
-                    {/*<Image*/}
-                    {/*source={{uri: this.state.pushEvent.pic}}*/}
-                    {/*style={{*/}
-                    {/*height: 300,*/}
-                    {/*width: 200,*/}
-                    {/*borderRadius: 20,*/}
-                    {/*margin: 20*/}
-                    {/*}}*/}
-                    {/*/>*/}
+                    {image}
 
                     <Text style={styles.welcome}>
                         {this.state.data.signName} on {this.state.todayDate}
@@ -157,15 +182,6 @@ class HoroscopeDetails extends Component {
 
                     <Text style={styles.welcome}>
                         {this.state.data.details.scope}
-                    </Text>
-
-
-                    <Text style={{
-                        fontSize: 16,
-                        padding: 20,
-                        textAlign: 'justify'
-                    }}>
-                        {this.state.data.longDescription}
                     </Text>
 
                 </View>
@@ -180,6 +196,12 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: '#F5FCFF',
+    },
+    img: {
+        height: 300,
+        width: 300,
+        borderRadius: 20,
+        margin: 20
     },
     welcome: {
         fontSize: 18,

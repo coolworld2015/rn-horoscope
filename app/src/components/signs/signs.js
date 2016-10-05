@@ -117,7 +117,7 @@ class Signs extends Component {
     }
 
     renderRow(rowData) {
-        var image = <View />;
+        var image;
 
         switch (rowData.name) {
             case 'Aries':
