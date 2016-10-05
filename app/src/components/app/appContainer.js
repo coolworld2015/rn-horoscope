@@ -1,6 +1,6 @@
 'use strict';
 
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {
     AppRegistry,
     StyleSheet,
@@ -21,106 +21,105 @@ import Search from '../search/search';
 import Signs from '../signs/signs';
 
 class AppContainer extends Component {
-    constructor(props){
+    constructor(props) {
         super(props);
 
-        this.state = {
-        };
+        this.state = {};
 
         this.init();
     }
 
     init() {
-      AsyncStorage.getItem('rn-movies.movies')
-        .then(req => JSON.parse(req))
-        .then(json => {
-          console.log(json);
-          if (json == undefined || json == null || json[0] == null) {
-            this.setState({
-              selectedTab: 'Search'
-            });
-          } else {
-            this.setState({
-              selectedTab: 'Signs'
-            });
-          }
-        })
-        .catch(error => console.log(error))
+        AsyncStorage.getItem('rn-movies.movies')
+            .then(req => JSON.parse(req))
+            .then(json => {
+                console.log(json);
+                if (json == undefined || json == null || json[0] == null) {
+                    this.setState({
+                        selectedTab: 'Search'
+                    });
+                } else {
+                    this.setState({
+                        selectedTab: 'Signs'
+                    });
+                }
+            })
+            .catch(error => console.log(error))
     }
 
-    render(){
-      return (
-        <TabBarIOS style={styles.AppContainer}>
+    render() {
+        return (
+            <TabBarIOS style={styles.AppContainer}>
 
-        <TabBarIOS.Item
-            title="Signs"
-            systemIcon="favorites"
-            selected={this.state.selectedTab == 'Signs'}
-            onPress={()=> this.setState({selectedTab: 'Signs'})}>
+                <TabBarIOS.Item
+                    title="Signs"
+                    systemIcon="favorites"
+                    selected={this.state.selectedTab == 'Signs'}
+                    onPress={()=> this.setState({selectedTab: 'Signs'})}>
 
-            <NavigatorIOS
-                style={{
-                    flex: 1
-                }}
-                initialRoute={{
-                    component: Signs,
-                    title: 'List of signs',
-                    passProps: {
-                        searchQuery: 'Sex'
-                    }
-                }}
-           />
-        </TabBarIOS.Item>
+                    <NavigatorIOS
+                        style={{
+                            flex: 1
+                        }}
+                        initialRoute={{
+                            component: Signs,
+                            title: 'List of signs',
+                            passProps: {
+                                searchQuery: 'Sex'
+                            }
+                        }}
+                    />
+                </TabBarIOS.Item>
 
-            <TabBarIOS.Item
-                title="Friends"
-      					systemIcon="contacts"
-                selected={this.state.selectedTab == 'Friends'}
-                onPress={()=> this.setState({selectedTab: 'Friends'})}>
+                <TabBarIOS.Item
+                    title="Friends"
+                    systemIcon="contacts"
+                    selected={this.state.selectedTab == 'Friends'}
+                    onPress={()=> this.setState({selectedTab: 'Friends'})}>
 
-                <NavigatorIOS
-                    style={{
-                        flex: 1
-                    }}
-                    initialRoute={{
-                        component: Search,
-                        title: 'List of friends'
-                		}}
-               />
-            </TabBarIOS.Item>
+                    <NavigatorIOS
+                        style={{
+                            flex: 1
+                        }}
+                        initialRoute={{
+                            component: Search,
+                            title: 'List of friends'
+                        }}
+                    />
+                </TabBarIOS.Item>
 
-        </TabBarIOS>
-      );
+            </TabBarIOS>
+        );
     }
 }
 
 /*
-systemIcon List:
-bookmarks
-contacts
-downloads
-favorites
-featured
-history
-more
-"most-recent"
-"most-viewed"
-recents
-search
-"top-rated"
-*/
+ systemIcon List:
+ bookmarks
+ contacts
+ downloads
+ favorites
+ featured
+ history
+ more
+ "most-recent"
+ "most-viewed"
+ recents
+ search
+ "top-rated"
+ */
 
 const styles = StyleSheet.create({
     AppContainer: {
-      flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
-      backgroundColor: '#F5FCFF',
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#F5FCFF',
     },
     welcome: {
-      fontSize: 20,
-      textAlign: 'center',
-      margin: 20,
+        fontSize: 20,
+        textAlign: 'center',
+        margin: 20,
     },
     container: {
         backgroundColor: '#F5FCFF',

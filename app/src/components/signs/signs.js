@@ -102,62 +102,18 @@ class Signs extends Component {
         });
     }
 
-    getHoroscope() {
+    getHoroscope(rowData) {
         this.props.navigator.push({
-            title: 'Horoscope',
-            component: HoroscopeDetails
+            title: rowData.name,
+            component: HoroscopeDetails,
+            passProps: {
+                pushEvent: rowData
+            }
         });
-
-        // fetch('http://m-api.californiapsychics.com/horoscope?format=json'
-        //     //+ this.state.searchQuery, {
-        //     + "&sign=" + 'Aries' + "&date=" + '09/21', {
-        //     method: 'get',
-        //     headers: {
-        //         'Accept': 'application/json',
-        //         'Content-Type': 'application/json'
-        //     }
-        // })
-        //     .then((response)=> response.json())
-        //     .then((responseData)=> {
-        //         console.log(responseData);
-        //         var data = responseData[0];
-        //         this.props.navigator.push({
-        //             title: data.signName,
-        //             component: HoroscopeDetails,
-        //             rightButtonTitle: 'Delete',
-        //             onRightButtonPress: () => {
-        //                 Alert.alert(
-        //                     'Delete',
-        //                     'Are you sure you want to delete ' + rowData.trackName + '?',
-        //                     [
-        //                         {text: 'Cancel', onPress: () => console.log('Cancel Pressed!')},
-        //                         {
-        //                             text: 'OK', onPress: () => {
-        //                             this.deleteMovie(rowData.trackId);
-        //                         }
-        //                         },
-        //                     ]
-        //                 );
-        //             },
-        //             passProps: {
-        //                 pushEvent: data
-        //             }
-        //         });
-        //     })
-        //     .catch((error)=> {
-        //         this.setState({
-        //             serverError: true
-        //         });
-        //     })
-        //     .finally(()=> {
-        //         this.setState({
-        //             showProgress: false
-        //         });
-        //     });
     }
 
     pressRow(rowData) {
-        this.getHoroscope();
+        this.getHoroscope(rowData);
     }
 
     renderRow(rowData) {
@@ -229,8 +185,7 @@ class Signs extends Component {
         return (
             <TouchableHighlight
                 onPress={()=> this.pressRow(rowData)}
-                underlayColor='#ddd'
-            >
+                underlayColor='#ddd'>
 
                 <View style={styles.imgsList}>
 
@@ -270,7 +225,7 @@ class Signs extends Component {
         var arr = [].concat(this.state.responseData);
         arr = arr[0]._dataBlob.s1;
 
-        var items = arr.filter((el) => el.name.indexOf(text) >= 0);
+        var items = arr.filter((el) => el.name.indexOf(text) != -1);
         this.setState({
             dataSource: this.state.dataSource.cloneWithRows(items),
             resultsCount: items.length,
@@ -311,8 +266,8 @@ class Signs extends Component {
                         borderColor: 'lightgray',
                         borderRadius: 0
                     }}
-                       onChangeText={this.onChangeText.bind(this)}
-                       placeholder="Search here">
+                               onChangeText={this.onChangeText.bind(this)}
+                               placeholder="Search here">
                     </TextInput>
 
                     {errorCtrl}

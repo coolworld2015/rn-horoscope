@@ -22,12 +22,20 @@ class HoroscopeDetails extends Component {
     constructor(props) {
         super(props);
 
+        var d = new Date;
+        var todayDate = d.getMonth() + 1 + '/' + (d.getDate()) + '/' + d.getFullYear();
+        var today = d.getMonth() + 1 + '/' + (d.getDate());
+
         this.state = {
             showProgress: true,
+            todayDate: todayDate,
+            today: today,
             pushEvent: {
                 details: {}
             }
         };
+
+        console.log(this.props.pushEvent);
 
         this.getHoroscope();
     }
@@ -35,7 +43,7 @@ class HoroscopeDetails extends Component {
     getHoroscope() {
         fetch('http://m-api.californiapsychics.com/horoscope?format=json'
             //+ this.state.searchQuery, {
-            + "&sign=" + 'Aries' + "&date=" + '09/21', {
+            + "&sign=" + this.props.pushEvent.name + "&date=" + this.state.today, {
             method: 'get',
             headers: {
                 'Accept': 'application/json',
@@ -46,9 +54,13 @@ class HoroscopeDetails extends Component {
             .then((responseData)=> {
 
                 var data = responseData[0];
-                this.state = {
-                    pushEvent: data
-                };
+
+                console.log(data.details.scope)
+
+                this.setState({
+                    data: data,
+                    showProgress: false
+                });
 
             })
             .catch((error)=> {
@@ -139,12 +151,12 @@ class HoroscopeDetails extends Component {
                     {/*/>*/}
 
                     <Text style={styles.welcome}>
-                        {this.state.pushEvent.signName}
+                        {this.state.data.signName} on {this.state.todayDate}
                     </Text>
 
 
                     <Text style={styles.welcome}>
-                        {this.state.pushEvent.details.scope}
+                        {this.state.data.details.scope}
                     </Text>
 
 
@@ -153,7 +165,7 @@ class HoroscopeDetails extends Component {
                         padding: 20,
                         textAlign: 'justify'
                     }}>
-                        {this.state.pushEvent.longDescription}
+                        {this.state.data.longDescription}
                     </Text>
 
                 </View>
@@ -173,6 +185,7 @@ const styles = StyleSheet.create({
         fontSize: 18,
         textAlign: 'center',
         margin: 10,
+        fontWeight: 'bold'
     },
     container: {
         backgroundColor: '#F5FCFF',

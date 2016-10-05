@@ -1,6 +1,6 @@
 'use strict';
 
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {
     AppRegistry,
     StyleSheet,
@@ -21,16 +21,16 @@ console.disableYellowBox = true;
 import AppContainer from './appContainer';
 
 class App extends Component {
-      constructor(props){
+    constructor(props) {
         super(props);
-}
+    }
 
-  render() {
-    return (
-        <AppContainer />
-    )
+    render() {
+        return (
+            <AppContainer />
+        )
 
-  }
+    }
 }
 
 export default App;
