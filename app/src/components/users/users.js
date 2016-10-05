@@ -138,8 +138,7 @@ class Users extends Component {
         return (
             <TouchableHighlight
                 onPress={()=> this.pressRow(rowData)}
-                underlayColor='#ddd'
-            >
+                underlayColor='#ddd'>
 
                 <View style={{
                     flex: 1,
@@ -240,9 +239,9 @@ class Users extends Component {
                 </ScrollView>
 
                 <View style={{marginBottom: 49}}>
-                        <Text style={styles.countFooter}>
-                            {this.state.resultsCount} entries were found.
-                        </Text>
+                    <Text style={styles.countFooter}>
+                        {this.state.resultsCount} entries were found.
+                    </Text>
                 </View>
             </View>
         )

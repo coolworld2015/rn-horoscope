@@ -106,6 +106,21 @@ class Signs extends Component {
         this.props.navigator.push({
             title: rowData.name,
             component: HoroscopeDetails,
+            rightButtonTitle: 'Tomorrow',
+            onRightButtonPress: () => {
+                Alert.alert(
+                    'Delete user',
+                    'Are you sure you want to delete user ' + rowData.name + '?',
+                    [
+                        {text: 'Cancel', onPress: () => console.log('Cancel Pressed!')},
+                        {
+                            text: 'OK', onPress: () => {
+                            this.deleteUser(rowData.id);
+                        }
+                        },
+                    ]
+                );
+            },
             passProps: {
                 pushEvent: rowData
             }

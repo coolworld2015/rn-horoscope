@@ -180,7 +180,7 @@ class HoroscopeDetails extends Component {
                     </Text>
 
 
-                    <Text style={styles.welcome}>
+                    <Text style={styles.welcome1}>
                         {this.state.data.details.scope}
                     </Text>
 
@@ -208,6 +208,11 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         margin: 10,
         fontWeight: 'bold'
+    },
+    welcome1: {
+        fontSize: 18,
+        textAlign: 'center',
+        margin: 10
     },
     container: {
         backgroundColor: '#F5FCFF',
