@@ -24,9 +24,11 @@ class AppContainer extends Component {
     constructor(props) {
         super(props);
 
-        this.state = {};
+        this.state = {
+            selectedTab: 'Signs'
+        };
 
-        this.init();
+        //this.init();
     }
 
     init() {
