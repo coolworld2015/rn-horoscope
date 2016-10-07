@@ -30,18 +30,19 @@ class FriendsDetails extends Component {
             showProgress: true,
             todayDate: todayDate,
             today: today,
-            pushEvent: props.pushEvent
+            name: props.pushEvent.name,
+            date: props.pushEvent.date,
+            sign: props.pushEvent.sign,
+            description: props.pushEvent.description,
         };
 
         this.getHoroscope();
     }
 
     getHoroscope() {
-        console.log(this.state.pushEvent.name);
-
         fetch('http://m-api.californiapsychics.com/horoscope?format=json'
             //+ this.state.searchQuery, {
-            + "&sign=" + this.state.pushEvent.sign + "&date=" + this.state.today, {
+            + "&sign=" + this.state.sign + "&date=" + this.state.today, {
             method: 'get',
             headers: {
                 'Accept': 'application/json',
@@ -76,7 +77,7 @@ class FriendsDetails extends Component {
     render() {
         var image;
 
-        switch (this.state.pushEvent.sign) {
+        switch (this.state.sign) {
             case 'Aries':
                 image = <Image source={require('../../../img/Aries.jpg')}
                                style={styles.img}/>;
@@ -176,7 +177,7 @@ class FriendsDetails extends Component {
                     {image}
 
                     <Text style={styles.welcome1}>
-                         {this.state.pushEvent.name}'s horoscope on {this.state.todayDate}
+                         {this.state.name}'s horoscope on {this.state.todayDate}
                     </Text>
 
                     <Text style={styles.welcome}>
@@ -189,14 +190,14 @@ class FriendsDetails extends Component {
                             invalidValue: false
                         })}
                         style={styles.loginInput}
-                        value={this.state.pushEvent.name}
+                        value={this.state.name}
                         placeholder="Name">
                     </TextInput>
 
                     <TextInput
                         style={styles.loginInput}
-                        value={this.state.pushEvent.sign}
-                        placeholder="Name">
+                        value={this.state.sign}
+                        placeholder="Sign">
                     </TextInput>
 
                     <TextInput
@@ -205,7 +206,7 @@ class FriendsDetails extends Component {
                             invalidValue: false
                         })}
                         style={styles.loginInput}
-                        value={this.state.pushEvent.date}
+                        value={this.state.date}
                         placeholder="Date of birth (mm/dd/year)">
                     </TextInput>
 
@@ -215,7 +216,7 @@ class FriendsDetails extends Component {
                             invalidValue: false
                         })}
                         style={styles.descriptionInput}
-                        value={this.state.pushEvent.description}
+                        value={this.state.description}
                         multiline={true}
                         placeholder="Description">
                     </TextInput>
