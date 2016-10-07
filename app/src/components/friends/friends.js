@@ -58,7 +58,7 @@ class Friends extends Component {
     }
 
     sort(a, b) {
-        var nameA = a.trackName.toLowerCase(), nameB = b.trackName.toLowerCase();
+        var nameA = a.name.toLowerCase(), nameB = b.name.toLowerCase();
         if (nameA < nameB) {
             return -1
         }
@@ -66,30 +66,6 @@ class Friends extends Component {
             return 1
         }
         return 0;
-    }
-
-    localStorageInsert() {
-        var movies = [];
-
-        AsyncStorage.getItem('rn-horoscope.friends')
-            .then(req => JSON.parse(req))
-            .then(json => {
-                movies = [].concat(json);
-                movies.push(this.state.pushEvent);
-
-                if (movies[0] == null) {
-                    movies.shift()
-                } // Hack !!!
-                console.log(movies);
-
-                AsyncStorage.setItem('rn-movies.movies', JSON.stringify(movies))
-                    .then(json => this.props.navigator.pop());
-
-            })
-            .catch(error => console.log(error));
-
-        // AsyncStorage.setItem('rn-movies.movies', JSON.stringify(movies))
-        //   .then(json => this.props.navigator.pop());
     }
 
     deleteMovie(id) {
@@ -149,8 +125,8 @@ class Friends extends Component {
         return (
             <TouchableHighlight
                 onPress={()=> this.pressRow(rowData)}
-                underlayColor='#ddd'
-            >
+                underlayColor='#ddd'>
+
                 <View style={styles.imgsList}>
 
                     {image}
@@ -160,7 +136,7 @@ class Friends extends Component {
                         flexDirection: 'column',
                         justifyContent: 'space-between'
                     }}>
-                        <Text>{rowData.trackName}</Text>
+                        <Text>{rowData.name} ({rowData.date})</Text>
                         {/*<Text>{rowData.releaseDate.split('-')[0]}</Text>*/}
                         {/*<Text>{rowData.country}</Text>*/}
                         {/*<Text>{rowData.primaryGenreName}</Text>*/}

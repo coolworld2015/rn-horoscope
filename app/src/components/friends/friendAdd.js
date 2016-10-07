@@ -13,7 +13,8 @@ import {
     ActivityIndicator,
     TabBarIOS,
     NavigatorIOS,
-    TextInput
+    TextInput,
+    AsyncStorage
 } from 'react-native';
 
 //import Users from './users';
@@ -41,7 +42,7 @@ class FriendAdd extends Component {
             showProgress: true
         });
 
-        var id = (Math.random() * 1000000).toFixed();
+        var id = +new Date;
 
         fetch('http://ui-budget.herokuapp.com/api/users/add/', {
             method: 'POST',
@@ -71,6 +72,34 @@ class FriendAdd extends Component {
                     showProgress: false
                 });
             });
+    }
+
+    localStorageInsert() {
+        var friends = [];
+        var id = +new Date;
+        var item = {
+            id: id,
+            name: this.state.name,
+            date: this.state.date,
+            description: this.state.description
+        };
+
+        AsyncStorage.getItem('rn-horoscope.friends')
+            .then(req => JSON.parse(req))
+            .then(json => {
+                friends = [].concat(json);
+                friends.push(item);
+
+                if (friends[0] == null) {
+                    friends.shift()
+                } // Hack !!!
+                console.log(friends);
+
+                AsyncStorage.setItem('rn-horoscope.friends', JSON.stringify(friends))
+                    .then(json => this.props.navigator.pop());
+
+            })
+            .catch(error => console.log(error));
     }
 
     render() {
@@ -119,12 +148,12 @@ class FriendAdd extends Component {
 
                     <TextInput
                         onChangeText={(text)=> this.setState({
-                            pass: text,
+                            date: text,
                             invalidValue: false
                         })}
                         style={styles.loginInput}
-                        value={this.state.pass}
-                        placeholder="Password">
+                        value={this.state.date}
+                        placeholder="Date of birth (mm/dd/year)">
                     </TextInput>
 
                     <TextInput
@@ -132,14 +161,16 @@ class FriendAdd extends Component {
                             description: text,
                             invalidValue: false
                         })}
-                        style={styles.loginInput}
+                        style={styles.descriptionInput}
                         value={this.state.description}
-                        placeholder="Description"></TextInput>
+                        multiline={true}
+                        placeholder="Description">
+                    </TextInput>
 
                     {validCtrl}
 
                     <TouchableHighlight
-                        onPress={()=> this.addUser()}
+                        onPress={()=> this.localStorageInsert()}
                         style={styles.button}>
                         <Text style={styles.buttonText}>New</Text>
                     </TouchableHighlight>
@@ -184,6 +215,16 @@ const styles = StyleSheet.create({
     },
     loginInput: {
         height: 50,
+        marginTop: 10,
+        padding: 4,
+        fontSize: 18,
+        borderWidth: 1,
+        borderColor: 'lightgray',
+        borderRadius: 0,
+        color: 'gray'
+    },
+    descriptionInput: {
+        height: 150,
         marginTop: 10,
         padding: 4,
         fontSize: 18,

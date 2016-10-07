@@ -64,7 +64,7 @@ class FriendsDetails extends Component {
                     {image}
 
                     <Text style={styles.welcome}>
-                        {this.state.pushEvent.trackName}
+                        {this.state.pushEvent.name}
                     </Text>
 
                     {/*<Text style={styles.welcome}>*/}
