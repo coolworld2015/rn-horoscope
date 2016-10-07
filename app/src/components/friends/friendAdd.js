@@ -94,6 +94,15 @@ class FriendAdd extends Component {
     }
 
     localStorageInsert() {
+        if (this.state.name == undefined ||
+            this.state.date == undefined ||
+            this.state.description == undefined) {
+            this.setState({
+                invalidValue: true
+            });
+            return;
+        }
+
         var friends = [];
         var id = +new Date;
 
@@ -146,14 +155,14 @@ class FriendAdd extends Component {
             <ScrollView>
                 <View style={{
                     flex: 1,
-                    padding: 10,
+                    padding: 5,
                     justifyContent: 'flex-start'
                 }}>
 
                     <Text style={{
                         fontSize: 24,
                         textAlign: 'center',
-                        marginTop: 0,
+                        marginTop: 5,
                         fontWeight: "bold"
                     }}>
                         New friend
@@ -244,7 +253,7 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: 'lightgray',
         borderRadius: 0,
-        color: 'gray'
+        color: 'black'
     },
     descriptionInput: {
         height: 150,

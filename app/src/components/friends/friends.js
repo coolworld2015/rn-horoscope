@@ -68,7 +68,7 @@ class Friends extends Component {
         return 0;
     }
 
-    deleteMovie(id) {
+    deleteFriend(id) {
         var friends = [];
 
         AsyncStorage.getItem('rn-horoscope.friends')
@@ -79,7 +79,7 @@ class Friends extends Component {
 
                 console.log(friends);
                 for (var i = 0; i < friends.length; i++) {
-                    if (friends[i].trackId == id) {
+                    if (friends[i].id == id) {
                         friends.splice(i, 1);
                         break;
                     }
@@ -94,18 +94,18 @@ class Friends extends Component {
 
     pressRow(rowData) {
         this.props.navigator.push({
-            title: rowData.trackName,
+            title: rowData.name,
             component: FriendsDetails,
             rightButtonTitle: 'Delete',
             onRightButtonPress: () => {
                 Alert.alert(
                     'Delete',
-                    'Are you sure you want to delete ' + rowData.trackName + '?',
+                    'Are you sure you want to delete ' + rowData.name + '?',
                     [
                         {text: 'Cancel', onPress: () => console.log('Cancel Pressed!')},
                         {
                             text: 'OK', onPress: () => {
-                            this.deleteMovie(rowData.trackId);
+                            this.deleteFriend(rowData.id);
                         }
                         },
                     ]
@@ -119,8 +119,69 @@ class Friends extends Component {
 
     renderRow(rowData) {
         var image;
-        image = <Image source={require('../../../img/Aries.jpg')}
-                       style={styles.img}/>;
+
+        switch (rowData.sign) {
+            case 'Aries':
+                image = <Image source={require('../../../img/Aries.jpg')}
+                               style={styles.img}/>;
+                break;
+
+            case 'Taurus':
+                image = <Image source={require('../../../img/Taurus.jpg')}
+                               style={styles.img}/>;
+                break;
+
+            case 'Gemini':
+                image = <Image source={require('../../../img/Gemini.jpg')}
+                               style={styles.img}/>;
+                break;
+
+            case 'Cancer':
+                image = <Image source={require('../../../img/Cancer.jpg')}
+                               style={styles.img}/>;
+                break;
+
+            case 'Leo':
+                image = <Image source={require('../../../img/Leo.jpg')}
+                               style={styles.img}/>;
+                break;
+
+            case 'Virgo':
+                image = <Image source={require('../../../img/Virgo.jpg')}
+                               style={styles.img}/>;
+                break;
+
+            case 'Libra':
+                image = <Image source={require('../../../img/Libra.jpg')}
+                               style={styles.img}/>;
+                break;
+
+            case 'Scorpio':
+                image = <Image source={require('../../../img/Scorpio.jpg')}
+                               style={styles.img}/>;
+                break;
+
+            case 'Sagittarius':
+                image = <Image source={require('../../../img/Sagittarius.jpg')}
+                               style={styles.img}/>;
+                break;
+
+            case 'Capricorn':
+                image = <Image source={require('../../../img/Capricorn.jpg')}
+                               style={styles.img}/>;
+                break;
+
+            case 'Aquarius':
+                image = <Image source={require('../../../img/Aquarius.jpg')}
+                               style={styles.img}/>;
+                break;
+
+            case 'Pisces':
+                image = <Image source={require('../../../img/Pisces.jpg')}
+                               style={styles.img}/>;
+                break;
+
+        }
 
         return (
             <TouchableHighlight
@@ -136,11 +197,7 @@ class Friends extends Component {
                         flexDirection: 'column',
                         justifyContent: 'space-between'
                     }}>
-                        <Text>{rowData.name} ({rowData.date})</Text>
-                        {/*<Text>{rowData.releaseDate.split('-')[0]}</Text>*/}
-                        {/*<Text>{rowData.country}</Text>*/}
-                        {/*<Text>{rowData.primaryGenreName}</Text>*/}
-                        {/*<Text>{rowData.artistName}</Text>*/}
+                        <Text style={styles.text}>{rowData.name} ({rowData.date})</Text>
                     </View>
                 </View>
             </TouchableHighlight>
@@ -256,9 +313,13 @@ const styles = StyleSheet.create({
         borderColor: '#D7D7D7',
         backgroundColor: 'whitesmoke'
     },
+    text: {
+        fontSize: 14,
+        fontWeight: 'bold'
+    },
     img: {
         height: 95,
-        width: 75,
+        width: 90,
         borderRadius: 20,
         margin: 20
     },

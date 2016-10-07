@@ -37,9 +37,11 @@ class FriendsDetails extends Component {
     }
 
     getHoroscope() {
+        console.log(this.state.pushEvent.name);
+
         fetch('http://m-api.californiapsychics.com/horoscope?format=json'
             //+ this.state.searchQuery, {
-            + "&sign=" + this.props.pushEvent.name + "&date=" + this.state.today, {
+            + "&sign=" + this.state.pushEvent.sign + "&date=" + this.state.today, {
             method: 'get',
             headers: {
                 'Accept': 'application/json',
@@ -162,6 +164,7 @@ class FriendsDetails extends Component {
             <ScrollView>
                 <View style={{
                     flex: 1,
+                    //padding: 10,
                     justifyContent: 'flex-start',
                     alignItems: 'center',
                     marginTop: 65,
@@ -180,21 +183,48 @@ class FriendsDetails extends Component {
                         {this.state.data.details.scope}
                     </Text>
 
-                    <Text style={styles.welcome}>
-                        {this.state.pushEvent.name}
-                    </Text>
+                    <TextInput
+                        onChangeText={(text)=> this.setState({
+                            name: text,
+                            invalidValue: false
+                        })}
+                        style={styles.loginInput}
+                        value={this.state.pushEvent.name}
+                        placeholder="Name">
+                    </TextInput>
 
-                    <Text style={styles.welcome}>
-                        {this.state.pushEvent.date}
-                    </Text>
+                    <TextInput
+                        style={styles.loginInput}
+                        value={this.state.pushEvent.sign}
+                        placeholder="Name">
+                    </TextInput>
 
-                    <Text style={styles.welcome}>
-                        {this.state.pushEvent.description}
-                    </Text>
+                    <TextInput
+                        onChangeText={(text)=> this.setState({
+                            date: text,
+                            invalidValue: false
+                        })}
+                        style={styles.loginInput}
+                        value={this.state.pushEvent.date}
+                        placeholder="Date of birth (mm/dd/year)">
+                    </TextInput>
 
-                    <Text style={styles.welcome}>
-                        {this.state.pushEvent.sign}
-                    </Text>
+                    <TextInput
+                        onChangeText={(text)=> this.setState({
+                            description: text,
+                            invalidValue: false
+                        })}
+                        style={styles.descriptionInput}
+                        value={this.state.pushEvent.description}
+                        multiline={true}
+                        placeholder="Description">
+                    </TextInput>
+
+                    <TouchableHighlight
+                        onPress={()=> this.localStorageInsert()}
+                        style={styles.button}>
+                        <Text style={styles.buttonText}>Update</Text>
+                    </TouchableHighlight>
 
                 </View>
             </ScrollView>
@@ -244,17 +274,27 @@ const styles = StyleSheet.create({
     },
     loginInput: {
         height: 50,
-        marginTop: 10,
         padding: 4,
+        margin: 5,
         fontSize: 18,
         borderWidth: 1,
-        borderColor: '#48BBEC',
+        borderColor: 'lightgray',
         borderRadius: 0,
-        color: '#48BBEC'
+        color: 'black'
+    },
+    descriptionInput: {
+        height: 150,
+        padding: 4,
+        margin: 5,
+        fontSize: 18,
+        borderWidth: 1,
+        borderColor: 'lightgray',
+        borderRadius: 0,
+        color: 'black'
     },
     button: {
         height: 50,
-        margin: 10,
+        margin: 5,
         backgroundColor: '#48BBEC',
         borderColor: '#48BBEC',
         alignSelf: 'stretch',
