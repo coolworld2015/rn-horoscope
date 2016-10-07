@@ -30,6 +30,31 @@ class AppContainer extends Component {
 
     }
 
+    localStorageInsert() {
+        var movies = [];
+
+        AsyncStorage.getItem('rn-horoscope.friends')
+            .then(req => JSON.parse(req))
+            .then(json => {
+                movies = [].concat(json);
+                //movies.push(this.state.pushEvent);
+                movies.push({trackName: 'Cool'});
+
+                if (movies[0] == null) {
+                    movies.shift()
+                } // Hack !!!
+                console.log(movies);
+
+                AsyncStorage.setItem('rn-horoscope.friends', JSON.stringify(movies))
+                    .then(json => this.props.navigator.pop());
+
+            })
+            .catch(error => console.log(error));
+
+        // AsyncStorage.setItem('rn-movies.movies', JSON.stringify(movies))
+        //   .then(json => this.props.navigator.pop());
+    }
+
     render() {
         return (
             <TabBarIOS style={styles.AppContainer}>
@@ -66,7 +91,17 @@ class AppContainer extends Component {
                         }}
                         initialRoute={{
                             component: Friends,
-                            title: 'List of friends'
+                            title: 'List of friends',
+                            rightButtonTitle: 'New',
+                            onRightButtonPress: () => {
+                                this.localStorageInsert();
+                                return;
+
+                                this.refs.emp.navigator.push({
+                                    title: "New user",
+                                    component: UserAdd
+                                });
+                            }
                         }}
                     />
                 </TabBarIOS.Item>

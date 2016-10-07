@@ -47,6 +47,7 @@ class Friends extends Component {
                     resultsCount: json.length,
                     responseData: json
                 });
+                console.log(json);
             })
             .catch(error => console.log(error))
             .finally(()=> {
@@ -65,6 +66,30 @@ class Friends extends Component {
             return 1
         }
         return 0;
+    }
+
+    localStorageInsert() {
+        var movies = [];
+
+        AsyncStorage.getItem('rn-horoscope.friends')
+            .then(req => JSON.parse(req))
+            .then(json => {
+                movies = [].concat(json);
+                movies.push(this.state.pushEvent);
+
+                if (movies[0] == null) {
+                    movies.shift()
+                } // Hack !!!
+                console.log(movies);
+
+                AsyncStorage.setItem('rn-movies.movies', JSON.stringify(movies))
+                    .then(json => this.props.navigator.pop());
+
+            })
+            .catch(error => console.log(error));
+
+        // AsyncStorage.setItem('rn-movies.movies', JSON.stringify(movies))
+        //   .then(json => this.props.navigator.pop());
     }
 
     deleteMovie(id) {
@@ -156,10 +181,10 @@ class Friends extends Component {
                         justifyContent: 'space-between'
                     }}>
                         <Text>{rowData.trackName}</Text>
-                        <Text>{rowData.releaseDate.split('-')[0]}</Text>
-                        <Text>{rowData.country}</Text>
-                        <Text>{rowData.primaryGenreName}</Text>
-                        <Text>{rowData.artistName}</Text>
+                        {/*<Text>{rowData.releaseDate.split('-')[0]}</Text>*/}
+                        {/*<Text>{rowData.country}</Text>*/}
+                        {/*<Text>{rowData.primaryGenreName}</Text>*/}
+                        {/*<Text>{rowData.artistName}</Text>*/}
                     </View>
                 </View>
             </TouchableHighlight>
@@ -218,7 +243,7 @@ class Friends extends Component {
                                        return;
                                    }
                                    var arr = [].concat(this.state.responseData);
-                                   var items = arr.filter((el) => el.trackName.indexOf(text) >= 0);
+                                   var items = arr.filter((el) => el.trackName.indexOf(text) != -1);
                                    this.setState({
                                        dataSource: this.state.dataSource.cloneWithRows(items),
                                        resultsCount: items.length,
