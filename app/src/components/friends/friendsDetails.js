@@ -67,29 +67,29 @@ class FriendsDetails extends Component {
                         {this.state.pushEvent.trackName}
                     </Text>
 
-                    <Text style={styles.welcome}>
-                        {this.state.pushEvent.releaseDate.split('-')[0]}
-                    </Text>
+                    {/*<Text style={styles.welcome}>*/}
+                        {/*{this.state.pushEvent.releaseDate.split('-')[0]}*/}
+                    {/*</Text>*/}
 
-                    <Text style={styles.welcome}>
-                        {this.state.pushEvent.country}
-                    </Text>
+                    {/*<Text style={styles.welcome}>*/}
+                        {/*{this.state.pushEvent.country}*/}
+                    {/*</Text>*/}
 
-                    <Text style={styles.welcome}>
-                        {this.state.pushEvent.primaryGenreName}
-                    </Text>
+                    {/*<Text style={styles.welcome}>*/}
+                        {/*{this.state.pushEvent.primaryGenreName}*/}
+                    {/*</Text>*/}
 
-                    <Text style={styles.welcome}>
-                        {this.state.pushEvent.artistName}
-                    </Text>
+                    {/*<Text style={styles.welcome}>*/}
+                        {/*{this.state.pushEvent.artistName}*/}
+                    {/*</Text>*/}
 
-                    <Text style={{
-                        fontSize: 16,
-                        padding: 20,
-                        textAlign: 'justify'
-                    }}>
-                        {this.state.pushEvent.longDescription}
-                    </Text>
+                    {/*<Text style={{*/}
+                        {/*fontSize: 16,*/}
+                        {/*padding: 20,*/}
+                        {/*textAlign: 'justify'*/}
+                    {/*}}>*/}
+                        {/*{this.state.pushEvent.longDescription}*/}
+                    {/*</Text>*/}
 
                 </View>
             </ScrollView>

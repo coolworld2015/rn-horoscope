@@ -19,6 +19,7 @@ import {
 
 import Signs from '../signs/signs';
 import Friends from '../friends/friends';
+import FriendAdd from '../friends/friendAdd';
 
 class AppContainer extends Component {
     constructor(props) {
@@ -89,17 +90,18 @@ class AppContainer extends Component {
                         style={{
                             flex: 1
                         }}
+                        ref="emp"
                         initialRoute={{
                             component: Friends,
                             title: 'List of friends',
                             rightButtonTitle: 'New',
                             onRightButtonPress: () => {
-                                this.localStorageInsert();
-                                return;
+                                {/*this.localStorageInsert();*/}
+                                {/*return;*/}
 
                                 this.refs.emp.navigator.push({
-                                    title: "New user",
-                                    component: UserAdd
+                                    title: "New friend",
+                                    component: FriendAdd
                                 });
                             }
                         }}
