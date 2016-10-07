@@ -74,13 +74,36 @@ class FriendAdd extends Component {
             });
     }
 
+    getSignName(bdate) {
+        var signName;
+        var parseDate = bdate.split("/");
+        var day = parseDate[1];
+        var month = parseDate[0].replace('0', '');
+
+        var zodiac = ['', 'Capricorn', 'Aquarius', 'Pisces', 'Aries', 'Taurus', 'Gemini', 'Cancer', 'Leo',
+            'Virgo', 'Libra', 'Scorpio', 'Sagittarius', 'Capricorn'];
+        var last_day = ['', 19, 18, 20, 20, 21, 21, 22, 22, 21, 22, 21, 20, 19];
+
+        if (last_day[month] < day) {
+            signName = zodiac[month * 1 + 1];
+        } else {
+            signName = zodiac[month];
+        }
+
+        return signName;
+    }
+
     localStorageInsert() {
         var friends = [];
         var id = +new Date;
+
+        var sign = this.getSignName(this.state.date);
+
         var item = {
             id: id,
             name: this.state.name,
             date: this.state.date,
+            sign: sign,
             description: this.state.description
         };
 
@@ -90,9 +113,9 @@ class FriendAdd extends Component {
                 friends = [].concat(json);
                 friends.push(item);
 
-                if (friends[0] == null) {
+                if (friends[0] == null) { // TODO: Hack !!!
                     friends.shift()
-                } // Hack !!!
+                }
                 console.log(friends);
 
                 AsyncStorage.setItem('rn-horoscope.friends', JSON.stringify(friends))

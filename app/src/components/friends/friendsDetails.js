@@ -22,74 +22,179 @@ class FriendsDetails extends Component {
     constructor(props) {
         super(props);
 
+        var d = new Date;
+        var todayDate = d.getMonth() + 1 + '/' + (d.getDate()) + '/' + d.getFullYear();
+        var today = d.getMonth() + 1 + '/' + (d.getDate());
+
         this.state = {
+            showProgress: true,
+            todayDate: todayDate,
+            today: today,
             pushEvent: props.pushEvent
         };
+
+        this.getHoroscope();
+    }
+
+    getHoroscope() {
+        fetch('http://m-api.californiapsychics.com/horoscope?format=json'
+            //+ this.state.searchQuery, {
+            + "&sign=" + this.props.pushEvent.name + "&date=" + this.state.today, {
+            method: 'get',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        })
+            .then((response)=> response.json())
+            .then((responseData)=> {
+
+                var data = responseData[0];
+
+                console.log(data.details);
+
+                this.setState({
+                    data: data,
+                    showProgress: false
+                });
+
+            })
+            .catch((error)=> {
+                this.setState({
+                    serverError: true
+                });
+            })
+            .finally(()=> {
+                this.setState({
+                    //showProgress: false
+                });
+            });
     }
 
     render() {
-        var image = <View />;
+        var image;
 
-        if (this.state.pushEvent.artworkUrl100) {
-            image = <Image
-                source={{uri: this.state.pushEvent.artworkUrl100.replace('100x100bb.jpg', '500x500bb.jpg')}}
-                style={{
-                    height: 300,
-                    width: 200,
-                    borderRadius: 20,
-                    margin: 20
-                }}
-            />;
-        } else {
-            image = <Image
-                source={{uri: this.state.pushEvent.pic}}
-                style={{
-                    height: 300,
-                    width: 200,
-                    borderRadius: 20,
-                    margin: 20
-                }}
-            />;
+        switch (this.state.pushEvent.sign) {
+            case 'Aries':
+                image = <Image source={require('../../../img/Aries.jpg')}
+                               style={styles.img}/>;
+                break;
+
+            case 'Taurus':
+                image = <Image source={require('../../../img/Taurus.jpg')}
+                               style={styles.img}/>;
+                break;
+
+            case 'Gemini':
+                image = <Image source={require('../../../img/Gemini.jpg')}
+                               style={styles.img}/>;
+                break;
+
+            case 'Cancer':
+                image = <Image source={require('../../../img/Cancer.jpg')}
+                               style={styles.img}/>;
+                break;
+
+            case 'Leo':
+                image = <Image source={require('../../../img/Leo.jpg')}
+                               style={styles.img}/>;
+                break;
+
+            case 'Virgo':
+                image = <Image source={require('../../../img/Virgo.jpg')}
+                               style={styles.img}/>;
+                break;
+
+            case 'Libra':
+                image = <Image source={require('../../../img/Libra.jpg')}
+                               style={styles.img}/>;
+                break;
+
+            case 'Scorpio':
+                image = <Image source={require('../../../img/Scorpio.jpg')}
+                               style={styles.img}/>;
+                break;
+
+            case 'Sagittarius':
+                image = <Image source={require('../../../img/Sagittarius.jpg')}
+                               style={styles.img}/>;
+                break;
+
+            case 'Capricorn':
+                image = <Image source={require('../../../img/Capricorn.jpg')}
+                               style={styles.img}/>;
+                break;
+
+            case 'Aquarius':
+                image = <Image source={require('../../../img/Aquarius.jpg')}
+                               style={styles.img}/>;
+                break;
+
+            case 'Pisces':
+                image = <Image source={require('../../../img/Pisces.jpg')}
+                               style={styles.img}/>;
+                break;
+
+        }
+
+        var errorCtrl;
+
+        if (this.state.serverError) {
+            errorCtrl = <Text style={styles.error}>
+                Something went wrong.
+            </Text>;
+        }
+
+        if (this.state.showProgress) {
+            return (
+                <View style={{
+                    flex: 1,
+                    justifyContent: 'center'
+                }}>
+                    <ActivityIndicator
+                        size="large"
+                        animating={true}/>
+                </View>
+            );
         }
 
         return (
             <ScrollView>
                 <View style={{
                     flex: 1,
-                    paddingTop: 20,
                     justifyContent: 'flex-start',
-                    alignItems: 'center'
+                    alignItems: 'center',
+                    marginTop: 65,
+                    marginBottom: 65
                 }}>
 
+                    {errorCtrl}
+
                     {image}
+
+                    <Text style={styles.welcome1}>
+                         {this.state.pushEvent.name}'s horoscope on {this.state.todayDate}
+                    </Text>
+
+                    <Text style={styles.welcome}>
+                        {this.state.data.details.scope}
+                    </Text>
 
                     <Text style={styles.welcome}>
                         {this.state.pushEvent.name}
                     </Text>
 
-                    {/*<Text style={styles.welcome}>*/}
-                        {/*{this.state.pushEvent.releaseDate.split('-')[0]}*/}
-                    {/*</Text>*/}
+                    <Text style={styles.welcome}>
+                        {this.state.pushEvent.date}
+                    </Text>
 
-                    {/*<Text style={styles.welcome}>*/}
-                        {/*{this.state.pushEvent.country}*/}
-                    {/*</Text>*/}
+                    <Text style={styles.welcome}>
+                        {this.state.pushEvent.description}
+                    </Text>
 
-                    {/*<Text style={styles.welcome}>*/}
-                        {/*{this.state.pushEvent.primaryGenreName}*/}
-                    {/*</Text>*/}
-
-                    {/*<Text style={styles.welcome}>*/}
-                        {/*{this.state.pushEvent.artistName}*/}
-                    {/*</Text>*/}
-
-                    {/*<Text style={{*/}
-                        {/*fontSize: 16,*/}
-                        {/*padding: 20,*/}
-                        {/*textAlign: 'justify'*/}
-                    {/*}}>*/}
-                        {/*{this.state.pushEvent.longDescription}*/}
-                    {/*</Text>*/}
+                    <Text style={styles.welcome}>
+                        {this.state.pushEvent.sign}
+                    </Text>
 
                 </View>
             </ScrollView>
@@ -104,10 +209,22 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: '#F5FCFF',
     },
+    img: {
+        height: 300,
+        width: 300,
+        borderRadius: 20,
+        margin: 20
+    },
     welcome: {
         fontSize: 18,
         textAlign: 'center',
         margin: 10,
+    },
+    welcome1: {
+        fontSize: 18,
+        textAlign: 'center',
+        margin: 10,
+        fontWeight: 'bold'
     },
     container: {
         backgroundColor: '#F5FCFF',

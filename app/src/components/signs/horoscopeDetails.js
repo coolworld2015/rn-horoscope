@@ -55,7 +55,7 @@ class HoroscopeDetails extends Component {
 
                 var data = responseData[0];
 
-                console.log(data.details)
+                console.log(data.details);
 
                 this.setState({
                     data: data,
@@ -76,7 +76,7 @@ class HoroscopeDetails extends Component {
     }
 
     render() {
-        var image = <View />;
+        var image;
 
         switch (this.props.pushEvent.name) {
             case 'Aries':
@@ -141,7 +141,7 @@ class HoroscopeDetails extends Component {
 
         }
 
-        var errorCtrl = <View />;
+        var errorCtrl;
 
         if (this.state.serverError) {
             errorCtrl = <Text style={styles.error}>
