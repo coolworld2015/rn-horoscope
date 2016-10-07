@@ -14,12 +14,13 @@ import {
     TabBarIOS,
     NavigatorIOS,
     TextInput,
+    AsyncStorage,
     Alert
 } from 'react-native';
 
-import UserDetails from './userDetails';
+import FriendsDetails from './friendsDetails';
 
-class Users extends Component {
+class Friends extends Component {
     constructor(props) {
         super(props);
 
@@ -29,36 +30,25 @@ class Users extends Component {
 
         this.state = {
             dataSource: ds.cloneWithRows([]),
+            searchQuery: props.searchQuery,
             showProgress: true,
-            serverError: false,
             resultsCount: 0
         };
 
-        this.getUsers();
+        this.getFavoritesMovies();
     }
 
-    getUsers() {
-        fetch('http://ui-base.herokuapp.com/api/users/get', {
-            method: 'get',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            }
-        })
-            .then((response)=> response.json())
-            .then((responseData)=> {
-
+    getFavoritesMovies() {
+        AsyncStorage.getItem('rn-horoscope.friends')
+            .then(req => JSON.parse(req))
+            .then(json => {
                 this.setState({
-                    dataSource: this.state.dataSource.cloneWithRows(responseData.sort(this.sort)),
-                    resultsCount: responseData.length,
-                    responseData: responseData
+                    dataSource: this.state.dataSource.cloneWithRows(json.sort(this.sort)),
+                    resultsCount: json.length,
+                    responseData: json
                 });
             })
-            .catch((error)=> {
-                this.setState({
-                    serverError: true
-                });
-            })
+            .catch(error => console.log(error))
             .finally(()=> {
                 this.setState({
                     showProgress: false
@@ -67,7 +57,7 @@ class Users extends Component {
     }
 
     sort(a, b) {
-        var nameA = a.name.toLowerCase(), nameB = b.name.toLowerCase();
+        var nameA = a.trackName.toLowerCase(), nameB = b.trackName.toLowerCase();
         if (nameA < nameB) {
             return -1
         }
@@ -77,52 +67,44 @@ class Users extends Component {
         return 0;
     }
 
-    deleteUser(id) {
-        this.setState({
-            showProgress: true
-        });
+    deleteMovie(id) {
+        var friends = [];
 
-        fetch('http://ui-base.herokuapp.com/api/users/delete/', {
-            method: 'POST',
-            body: JSON.stringify({
-                id: id
-            }),
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            }
-        })
+        AsyncStorage.getItem('rn-horoscope.friends')
+            .then(req => JSON.parse(req))
+            .then(json => {
 
-            .then((responseData)=> {
+                friends = [].concat(json);
+
+                console.log(friends);
+                for (var i = 0; i < friends.length; i++) {
+                    if (friends[i].trackId == id) {
+                        friends.splice(i, 1);
+                        break;
+                    }
+                }
+
+                AsyncStorage.setItem('rn-horoscope.friends', JSON.stringify(friends))
+                    .then(json => this.props.navigator.pop());
+
             })
-            .catch((error)=> {
-                console.log(error);
-                this.setState({
-                    serverError: true
-                });
-            })
-            .finally(()=> {
-                this.setState({
-                    showProgress: false
-                });
-                this.props.navigator.pop();
-            });
+            .catch(error => console.log(error))
     }
 
     pressRow(rowData) {
         this.props.navigator.push({
-            title: 'Edit',
-            component: UserDetails,
+            title: rowData.trackName,
+            component: FriendsDetails,
             rightButtonTitle: 'Delete',
             onRightButtonPress: () => {
                 Alert.alert(
-                    'Delete user',
-                    'Are you sure you want to delete user ' + rowData.name + '?',
+                    'Delete',
+                    'Are you sure you want to delete ' + rowData.trackName + '?',
                     [
                         {text: 'Cancel', onPress: () => console.log('Cancel Pressed!')},
                         {
                             text: 'OK', onPress: () => {
-                            this.deleteUser(rowData.id);
+                            this.deleteMovie(rowData.trackId);
                         }
                         },
                     ]
@@ -135,27 +117,51 @@ class Users extends Component {
     }
 
     renderRow(rowData) {
+        var image = <View />;
+        if (rowData) {
+            if (rowData.artworkUrl100) {
+                image = <Image
+                    source={{uri: rowData.artworkUrl100.replace('100x100bb.jpg', '500x500bb.jpg')}}
+                    style={{
+                        height: 95,
+                        width: 75,
+                        borderRadius: 20,
+                        margin: 20
+                    }}
+                />;
+            } else {
+                image = <Image
+                    source={{uri: rowData.pic}}
+                    style={{
+                        height: 95,
+                        width: 75,
+                        borderRadius: 20,
+                        margin: 20
+                    }}
+                />;
+            }
+        }
         return (
             <TouchableHighlight
                 onPress={()=> this.pressRow(rowData)}
-                underlayColor='#ddd'>
+                underlayColor='#ddd'
+            >
+                <View style={styles.imgsList}>
 
-                <View style={{
-                    flex: 1,
-                    flexDirection: 'row',
-                    padding: 20,
-                    alignItems: 'center',
-                    borderColor: '#D7D7D7',
-                    borderBottomWidth: 1,
-                    backgroundColor: '#fff'
-                }}>
+                    {image}
 
-                    <Text style={{backgroundColor: '#fff'}}>
-                        {rowData.name}
-                    </Text>
-
+                    <View style={{
+                        flex: 1,
+                        flexDirection: 'column',
+                        justifyContent: 'space-between'
+                    }}>
+                        <Text>{rowData.trackName}</Text>
+                        <Text>{rowData.releaseDate.split('-')[0]}</Text>
+                        <Text>{rowData.country}</Text>
+                        <Text>{rowData.primaryGenreName}</Text>
+                        <Text>{rowData.artistName}</Text>
+                    </View>
                 </View>
-
             </TouchableHighlight>
         );
     }
@@ -165,23 +171,16 @@ class Users extends Component {
 
             this.setState({
                 showProgress: true,
-                resultsCount: event.nativeEvent.contentOffset.y
+                serverError: false,
+                //resultsCount: event.nativeEvent.contentOffset.y
             });
             setTimeout(() => {
-                this.getUsers()
+                this.getFavoritesMovies()
             }, 300);
         }
     }
 
-
     render() {
-        var swipeoutBtns = [
-            {
-                text: 'Delete',
-                backgroundColor: 'red',
-            }
-        ]
-
         var errorCtrl = <View />;
 
         if (this.state.serverError) {
@@ -215,14 +214,17 @@ class Users extends Component {
                         borderRadius: 0,
                     }}
                                onChangeText={(text)=> {
+                                   if (this.state.responseData == undefined) {
+                                       return;
+                                   }
                                    var arr = [].concat(this.state.responseData);
-                                   var items = arr.filter((el) => el.name.indexOf(text) != -1);
+                                   var items = arr.filter((el) => el.trackName.indexOf(text) >= 0);
                                    this.setState({
                                        dataSource: this.state.dataSource.cloneWithRows(items),
                                        resultsCount: items.length,
                                    })
                                }}
-                               placeholder="Search">
+                               placeholder="Search here">
                     </TextInput>
 
                     {errorCtrl}
@@ -243,17 +245,22 @@ class Users extends Component {
                         {this.state.resultsCount} entries were found.
                     </Text>
                 </View>
+
             </View>
         )
     }
 }
 
+
 const styles = StyleSheet.create({
-    AppContainer: {
+    imgsList: {
         flex: 1,
-        justifyContent: 'center',
+        flexDirection: 'row',
+        padding: 0,
         alignItems: 'center',
-        backgroundColor: 'gray',
+        borderColor: '#D7D7D7',
+        borderBottomWidth: 1,
+        backgroundColor: '#fff'
     },
     countHeader: {
         fontSize: 16,
@@ -268,49 +275,17 @@ const styles = StyleSheet.create({
         borderColor: '#D7D7D7',
         backgroundColor: 'whitesmoke'
     },
-    welcome: {
-        fontSize: 20,
-        textAlign: 'center',
-        margin: 20,
-    },
-    loginInput: {
-        height: 50,
-        marginTop: 10,
-        padding: 4,
-        fontSize: 18,
-        borderWidth: 1,
-        borderColor: 'lightgray',
-        borderRadius: 0,
-        color: 'gray'
-    },
-    button: {
-        height: 50,
-        backgroundColor: '#48BBEC',
-        borderColor: '#48BBEC',
-        alignSelf: 'stretch',
-        marginTop: 10,
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderRadius: 5
-    },
-    buttonText: {
-        color: '#fff',
-        fontSize: 24
-    },
-    loader: {
-        marginTop: 20
-    },
-    error: {
-        color: 'red',
-        paddingTop: 10,
-        textAlign: 'center'
-    },
     img: {
         height: 95,
         width: 75,
         borderRadius: 20,
         margin: 20
+    },
+    error: {
+        color: 'red',
+        paddingTop: 10,
+        textAlign: 'center'
     }
 });
 
-export default Users;
+export default Friends;

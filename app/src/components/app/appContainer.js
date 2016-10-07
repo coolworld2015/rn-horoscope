@@ -18,35 +18,16 @@ import {
 } from 'react-native';
 
 import Signs from '../signs/signs';
-import Users from '../users/users';
+import Friends from '../friends/friends';
 
 class AppContainer extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            selectedTab: 'Signs'
+            selectedTab: 'Friends'
         };
 
-        //this.init();
-    }
-
-    init() {
-        AsyncStorage.getItem('rn-movies.movies')
-            .then(req => JSON.parse(req))
-            .then(json => {
-                console.log(json);
-                if (json == undefined || json == null || json[0] == null) {
-                    this.setState({
-                        selectedTab: 'Search'
-                    });
-                } else {
-                    this.setState({
-                        selectedTab: 'Signs'
-                    });
-                }
-            })
-            .catch(error => console.log(error))
     }
 
     render() {
@@ -84,7 +65,7 @@ class AppContainer extends Component {
                             flex: 1
                         }}
                         initialRoute={{
-                            component: Users,
+                            component: Friends,
                             title: 'List of friends'
                         }}
                     />
