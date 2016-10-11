@@ -184,48 +184,21 @@ class FriendsDetails extends Component {
                         {this.state.data.details.scope}
                     </Text>
 
-                    <TextInput
-                        onChangeText={(text)=> this.setState({
-                            name: text,
-                            invalidValue: false
-                        })}
-                        style={styles.loginInput}
-                        value={this.state.name}
-                        placeholder="Name">
-                    </TextInput>
+                    <Text style={styles.welcome1}>
+                        Name: {this.state.name}
+                    </Text>
 
-                    <TextInput
-                        style={styles.loginInput}
-                        value={this.state.sign}
-                        placeholder="Sign">
-                    </TextInput>
+                    <Text style={styles.welcome1}>
+                        Sign: {this.state.sign}
+                    </Text>
 
-                    <TextInput
-                        onChangeText={(text)=> this.setState({
-                            date: text,
-                            invalidValue: false
-                        })}
-                        style={styles.loginInput}
-                        value={this.state.date}
-                        placeholder="Date of birth (mm/dd/year)">
-                    </TextInput>
+                    <Text style={styles.welcome1}>
+                        Date of birth: {this.state.date}
+                    </Text>
 
-                    <TextInput
-                        onChangeText={(text)=> this.setState({
-                            description: text,
-                            invalidValue: false
-                        })}
-                        style={styles.descriptionInput}
-                        value={this.state.description}
-                        multiline={true}
-                        placeholder="Description">
-                    </TextInput>
-
-                    <TouchableHighlight
-                        onPress={()=> this.localStorageInsert()}
-                        style={styles.button}>
-                        <Text style={styles.buttonText}>Update</Text>
-                    </TouchableHighlight>
+                    <Text style={styles.welcome1}>
+                        Description: {this.state.description}
+                    </Text>
 
                 </View>
             </ScrollView>

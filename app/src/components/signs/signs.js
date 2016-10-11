@@ -115,7 +115,7 @@ class Signs extends Component {
                         {text: 'Cancel', onPress: () => console.log('Cancel Pressed!')},
                         {
                             text: 'OK', onPress: () => {
-                            this.deleteUser(rowData.id);
+                            //this.deleteUser(rowData.id);
                         }
                         },
                     ]
@@ -322,7 +322,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff'
     },
     text: {
-        fontSize: 18,
+        fontSize: 16,
         fontWeight: 'bold'
     },
     countFooter: {
@@ -333,8 +333,8 @@ const styles = StyleSheet.create({
         backgroundColor: 'whitesmoke'
     },
     img: {
-        height: 115,
-        width: 105,
+        height: 95,
+        width: 90,
         borderRadius: 20,
         margin: 20
     },

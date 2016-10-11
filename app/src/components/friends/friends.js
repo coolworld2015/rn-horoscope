@@ -197,7 +197,8 @@ class Friends extends Component {
                         flexDirection: 'column',
                         justifyContent: 'space-between'
                     }}>
-                        <Text style={styles.text}>{rowData.name} ({rowData.date})</Text>
+                        <Text style={styles.text}>{rowData.name}</Text>
+                        <Text style={styles.text}>{rowData.date}</Text>
                     </View>
                 </View>
             </TouchableHighlight>
@@ -314,7 +315,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'whitesmoke'
     },
     text: {
-        fontSize: 14,
+        fontSize: 16,
         fontWeight: 'bold'
     },
     img: {
