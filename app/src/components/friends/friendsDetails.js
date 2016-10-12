@@ -30,6 +30,9 @@ class FriendsDetails extends Component {
             showProgress: true,
             todayDate: todayDate,
             today: today,
+            data: {
+                details: {}
+            },
             name: props.pushEvent.name,
             date: props.pushEvent.date,
             sign: props.pushEvent.sign,
@@ -41,7 +44,6 @@ class FriendsDetails extends Component {
 
     getHoroscope() {
         fetch('http://m-api.californiapsychics.com/horoscope?format=json'
-            //+ this.state.searchQuery, {
             + "&sign=" + this.state.sign + "&date=" + this.state.today, {
             method: 'get',
             headers: {
@@ -51,16 +53,11 @@ class FriendsDetails extends Component {
         })
             .then((response)=> response.json())
             .then((responseData)=> {
-
                 var data = responseData[0];
-
-                console.log(data.details);
-
                 this.setState({
                     data: data,
                     showProgress: false
                 });
-
             })
             .catch((error)=> {
                 this.setState({
@@ -69,7 +66,7 @@ class FriendsDetails extends Component {
             })
             .finally(()=> {
                 this.setState({
-                    //showProgress: false
+                    showProgress: false
                 });
             });
     }
@@ -177,7 +174,7 @@ class FriendsDetails extends Component {
                     {image}
 
                     <Text style={styles.welcome1}>
-                         {this.state.name}'s horoscope on {this.state.todayDate}
+                        {this.state.name}'s horoscope on {this.state.todayDate}
                     </Text>
 
                     <Text style={styles.welcome}>
