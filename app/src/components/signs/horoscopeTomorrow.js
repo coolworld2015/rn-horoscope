@@ -18,18 +18,32 @@ import {
     Alert
 } from 'react-native';
 
-class HoroscopeDetails extends Component {
+class HoroscopeTomorrow extends Component {
     constructor(props) {
         super(props);
 
         var d = new Date;
-        var todayDate = d.getMonth() + 1 + '/' + (d.getDate()) + '/' + d.getFullYear();
-        var today = d.getMonth() + 1 + '/' + (d.getDate());
+        var year = d.getFullYear();
+        var month = d.getMonth() + 1;
+        var monthTomorrow = month;
+        var today = d.getDate();
+        var dayTomorrow;
+
+        if (today == 30) {
+            dayTomorrow = '01';
+            monthTomorrow = month + 1;
+        } else {
+            dayTomorrow = today + 1;
+        }
+
+
+        var tomorrowDate = monthTomorrow + '/' + dayTomorrow + '/' + year;
+        var tomorrow = monthTomorrow + '/' + dayTomorrow;
 
         this.state = {
             showProgress: true,
-            todayDate: todayDate,
-            today: today,
+            tomorrowDate: tomorrowDate,
+            tomorrow: tomorrow,
             data: {
                 details: {}
             }
@@ -38,9 +52,54 @@ class HoroscopeDetails extends Component {
         this.getHoroscope();
     }
 
+    paramDate(param) {
+        var d, today, yesterday, tomorrow, month, paramDate,
+            year, monthTomorrow, monthYesterday;
+        d = new Date;
+        year = d.getFullYear();
+        month = d.getMonth() + 1;
+        monthTomorrow = month;
+        monthYesterday = month;
+        today = d.getDate();
+
+        if (today == '01') {
+            monthYesterday = month - 1;
+            yesterday = '30';
+        } else {
+            yesterday = today - 1;
+        }
+
+        if (today == 30) {
+            tomorrow = '01';
+            monthTomorrow = month + 1;
+        } else {
+            tomorrow = today + 1;
+        }
+
+        if (month == 13) {
+            month = '12'
+        }
+
+        switch (param) {
+            case 'today':
+                paramDate = month + '/' + today + '/' + year;
+                break;
+            case 'yesterday':
+                paramDate = monthYesterday + '/' + yesterday + '/' + year;
+                break;
+            case 'tomorrow':
+                paramDate = monthTomorrow + '/' + tomorrow + '/' + year;
+                break;
+            default:
+                paramDate = month + '/' + day + '/' + year;
+                break;
+        }
+        return paramDate;
+    }
+
     getHoroscope() {
         fetch('http://m-api.californiapsychics.com/horoscope?format=json'
-            + "&sign=" + this.props.pushEvent.name + "&date=" + this.state.today, {
+            + "&sign=" + this.props.pushEvent.name + "&date=" + this.state.tomorrow, {
             method: 'get',
             headers: {
                 'Accept': 'application/json',
@@ -169,7 +228,7 @@ class HoroscopeDetails extends Component {
                     {image}
 
                     <Text style={styles.welcome}>
-                        {this.state.data.signName} on {this.state.todayDate}
+                        {this.state.data.signName} on {this.state.tomorrowDate}
                     </Text>
 
 
@@ -257,4 +316,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default HoroscopeDetails;
+export default HoroscopeTomorrow;

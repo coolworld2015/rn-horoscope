@@ -19,6 +19,7 @@ import {
 } from 'react-native';
 
 import HoroscopeDetails from './horoscopeDetails';
+import HoroscopeTomorrow from './horoscopeTomorrow';
 
 class Signs extends Component {
     constructor(props) {
@@ -108,18 +109,17 @@ class Signs extends Component {
             component: HoroscopeDetails,
             rightButtonTitle: 'Tomorrow',
             onRightButtonPress: () => {
-                Alert.alert(
-                    'Delete user',
-                    'Are you sure you want to delete user ' + rowData.name + '?',
-                    [
-                        {text: 'Cancel', onPress: () => console.log('Cancel Pressed!')},
-                        {
-                            text: 'OK', onPress: () => {
-                            //this.deleteUser(rowData.id);
-                        }
-                        },
-                    ]
-                );
+                this.props.navigator.push({
+                    title: rowData.name,
+                    component: HoroscopeTomorrow,
+                    rightButtonTitle: 'Back',
+                    onRightButtonPress: () => {
+                        this.props.navigator.popToTop(0)
+                    },
+                    passProps: {
+                        pushEvent: rowData
+                    }
+                })
             },
             passProps: {
                 pushEvent: rowData
