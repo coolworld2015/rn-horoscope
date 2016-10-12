@@ -198,8 +198,8 @@ const styles = StyleSheet.create({
         backgroundColor: '#F5FCFF',
     },
     img: {
-        height: 300,
-        width: 300,
+        height: 270,
+        width: 270,
         borderRadius: 20,
         margin: 20
     },
