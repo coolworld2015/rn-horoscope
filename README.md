@@ -36,3 +36,9 @@ d) Pop-up will appear, tap "Trust" there.
 6) That's it. Move back to springboard and run the app.
 Installed.
 -------------------------------------------------------------------------------------------------
+5.5-Inch Retina Display Screenshots
+1242 x 2208 pixels for hi-res portrait
+2208 x 1242 pixels for hi-res landscape
+-------------------------------------------------------------------------------------------------
+Added Default-568h@2x.png everywhere
+-------------------------------------------------------------------------------------------------
