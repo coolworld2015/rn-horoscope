@@ -137,7 +137,6 @@ class FriendAdd extends Component {
                             this.props.navigator.pop();
                         }
                     );
-
             })
             .catch(error => console.log(error));
     }
