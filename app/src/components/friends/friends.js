@@ -38,6 +38,18 @@ class Friends extends Component {
         this.getFavoritesMovies();
     }
 
+    componentWillUpdate() {
+        if (App.friends.refresh) {
+            App.friends.refresh = false;
+
+            this.setState({
+                showProgress: true
+            });
+
+            this.getFavoritesMovies();
+        }
+    }
+
     getFavoritesMovies() {
         AsyncStorage.getItem('rn-horoscope.friends')
             .then(req => JSON.parse(req))
@@ -69,6 +81,10 @@ class Friends extends Component {
     }
 
     deleteFriend(id) {
+        this.setState({
+            showProgress: true
+        });
+
         var friends = [];
 
         AsyncStorage.getItem('rn-horoscope.friends')
@@ -86,8 +102,11 @@ class Friends extends Component {
                 }
 
                 AsyncStorage.setItem('rn-horoscope.friends', JSON.stringify(friends))
-                    .then(json => this.props.navigator.pop());
-
+                    .then(json => {
+                            App.friends.refresh = true;
+                            this.props.navigator.pop();
+                        }
+                    );
             })
             .catch(error => console.log(error))
     }

@@ -94,6 +94,10 @@ class FriendAdd extends Component {
     }
 
     localStorageInsert() {
+        this.setState({
+            showProgress: true
+        });
+
         if (this.state.name == undefined ||
             this.state.date == undefined ||
             this.state.description == undefined) {
@@ -128,7 +132,11 @@ class FriendAdd extends Component {
                 console.log(friends);
 
                 AsyncStorage.setItem('rn-horoscope.friends', JSON.stringify(friends))
-                    .then(json => this.props.navigator.pop());
+                    .then(json => {
+                            App.friends.refresh = true;
+                            this.props.navigator.pop();
+                        }
+                    );
 
             })
             .catch(error => console.log(error));

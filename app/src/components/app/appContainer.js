@@ -1,4 +1,4 @@
-'use strict';
+//'use strict';
 
 import React, {Component} from 'react';
 import {
@@ -29,6 +29,11 @@ class AppContainer extends Component {
             selectedTab: 'Signs'
         };
 
+        App = {
+            friends: {
+                refresh: false
+            }
+        };
     }
 
     localStorageInsert() {
