@@ -240,7 +240,7 @@ class Signs extends Component {
         var arr = [].concat(this.state.responseData);
         arr = arr[0]._dataBlob.s1;
 
-        var items = arr.filter((el) => el.name.indexOf(text) != -1);
+        var items = arr.filter((el) => el.name.toLowerCase().indexOf(text.toLowerCase()) >= 0);
         this.setState({
             dataSource: this.state.dataSource.cloneWithRows(items),
             resultsCount: items.length,
