@@ -45,9 +45,6 @@ class Signs extends Component {
     }
 
     getSignsList() {
-        if (this.state.reload == true) {
-            //return;
-        }
         console.log('getSignsList');
         var arrSigns = [
             {
@@ -232,8 +229,7 @@ class Signs extends Component {
 
         if (event.nativeEvent.contentOffset.y <= -100) {
             this.setState({
-                showProgress: true,
-                serverError: false
+                showProgress: true
             });
 
             setTimeout(() => {
@@ -257,8 +253,7 @@ class Signs extends Component {
     }
 
     render() {
-        var errorCtrl;
-        var loader;
+        var errorCtrl, loader;
 
         if (this.state.serverError) {
             errorCtrl = <Text style={styles.error}>
@@ -268,7 +263,6 @@ class Signs extends Component {
 
         if (this.state.showProgress) {
             loader = <View style={{
-                //flex: 1,
                 justifyContent: 'center',
                 height: 100
             }}>
@@ -276,7 +270,6 @@ class Signs extends Component {
                     size="large"
                     animating={true}/>
             </View>;
-
         }
 
         return (
@@ -302,9 +295,9 @@ class Signs extends Component {
                 {loader}
 
                 <ScrollView
-                    onScroll={this.refreshData.bind(this)} scrollEventThrottle={16}
-                    style={{marginTop: -65, marginBottom: -45}}>
+                    onScroll={this.refreshData.bind(this)} scrollEventThrottle={16}>
                     <ListView
+                        style={{marginTop: -65, marginBottom: -45}}
                         dataSource={this.state.dataSource}
                         renderRow={this.renderRow.bind(this)}
                     />

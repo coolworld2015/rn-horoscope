@@ -225,21 +225,38 @@ class Friends extends Component {
     }
 
     refreshData(event) {
+        if (this.state.showProgress == true) {
+            return;
+        }
+
         if (event.nativeEvent.contentOffset.y <= -100) {
 
             this.setState({
-                showProgress: true,
-                serverError: false,
-                //resultsCount: event.nativeEvent.contentOffset.y
+                showProgress: true
             });
+
             setTimeout(() => {
                 this.getFavoritesMovies()
             }, 300);
         }
     }
 
+    onChangeText(text) {
+        if (this.state.dataSource == undefined) {
+            return;
+        }
+        var arr = [].concat(this.state.responseData);
+        arr = arr[0]._dataBlob.s1;
+
+        var items = arr.filter((el) => el.name.toLowerCase().indexOf(text.toLowerCase()) >= 0);
+        this.setState({
+            dataSource: this.state.dataSource.cloneWithRows(items),
+            resultsCount: items.length,
+        })
+    }
+
     render() {
-        var errorCtrl = <View />;
+        var errorCtrl, loader;
 
         if (this.state.serverError) {
             errorCtrl = <Text style={styles.error}>
@@ -248,17 +265,16 @@ class Friends extends Component {
         }
 
         if (this.state.showProgress) {
-            return (
-                <View style={{
-                    flex: 1,
-                    justifyContent: 'center'
-                }}>
-                    <ActivityIndicator
-                        size="large"
-                        animating={true}/>
-                </View>
-            );
+            loader = <View style={{
+                justifyContent: 'center',
+                height: 100
+            }}>
+                <ActivityIndicator
+                    size="large"
+                    animating={true}/>
+            </View>;
         }
+
         return (
             <View style={{flex: 1, justifyContent: 'center'}}>
                 <View style={{marginTop: 60}}>
@@ -271,17 +287,7 @@ class Friends extends Component {
                         borderColor: 'lightgray',
                         borderRadius: 0,
                     }}
-                               onChangeText={(text)=> {
-                                   if (this.state.responseData == undefined) {
-                                       return;
-                                   }
-                                   var arr = [].concat(this.state.responseData);
-                                   var items = arr.filter((el) => el.name.toLowerCase().indexOf(text.toLowerCase()) >= 0);
-                                   this.setState({
-                                       dataSource: this.state.dataSource.cloneWithRows(items),
-                                       resultsCount: items.length,
-                                   })
-                               }}
+                               onChangeText={this.onChangeText.bind(this)}
                                placeholder="Search here">
                     </TextInput>
 
@@ -289,10 +295,12 @@ class Friends extends Component {
 
                 </View>
 
+                {loader}
+
                 <ScrollView
-                    onScroll={this.refreshData.bind(this)} scrollEventThrottle={16}
-                    style={{marginTop: 0, marginBottom: 0}}>
+                    onScroll={this.refreshData.bind(this)} scrollEventThrottle={16}>
                     <ListView
+                        style={{marginTop: -65, marginBottom: -45}}
                         dataSource={this.state.dataSource}
                         renderRow={this.renderRow.bind(this)}
                     />
