@@ -45,6 +45,10 @@ class Signs extends Component {
     }
 
     getSignsList() {
+        if (this.state.reload == true) {
+            //return;
+        }
+        console.log('getSignsList');
         var arrSigns = [
             {
                 name: 'Capricorn',
@@ -227,15 +231,13 @@ class Signs extends Component {
         }
 
         if (event.nativeEvent.contentOffset.y <= -100) {
-
             this.setState({
                 showProgress: true,
                 serverError: false
             });
 
-
             setTimeout(() => {
-                this.getSignsList();
+                    this.getSignsList();
             }, 100);
         }
     }
