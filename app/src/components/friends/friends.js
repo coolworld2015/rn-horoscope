@@ -232,21 +232,22 @@ class Friends extends Component {
         if (event.nativeEvent.contentOffset.y <= -100) {
 
             this.setState({
-                showProgress: true
+                showProgress: true,
+                resultsCount: 0
             });
 
             setTimeout(() => {
                 this.getFavoritesMovies()
-            }, 300);
+            }, 100);
         }
     }
 
     onChangeText(text) {
-        if (this.state.dataSource == undefined) {
+        if (this.state.responseData == undefined) {
             return;
         }
+
         var arr = [].concat(this.state.responseData);
-        arr = arr[0]._dataBlob.s1;
 
         var items = arr.filter((el) => el.name.toLowerCase().indexOf(text.toLowerCase()) >= 0);
         this.setState({

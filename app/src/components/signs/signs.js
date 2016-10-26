@@ -229,7 +229,8 @@ class Signs extends Component {
 
         if (event.nativeEvent.contentOffset.y <= -100) {
             this.setState({
-                showProgress: true
+                showProgress: true,
+                resultsCount: 0
             });
 
             setTimeout(() => {
