@@ -35,7 +35,7 @@ class Friends extends Component {
             resultsCount: 0
         };
 
-        this.getFavoritesMovies();
+        this.getFriends();
     }
 
     componentWillUpdate() {
@@ -46,11 +46,11 @@ class Friends extends Component {
                 showProgress: true
             });
 
-            this.getFavoritesMovies();
+            this.getFriends();
         }
     }
 
-    getFavoritesMovies() {
+    getFriends() {
         AsyncStorage.getItem('rn-horoscope.friends')
             .then(req => JSON.parse(req))
             .then(json => {
@@ -229,7 +229,7 @@ class Friends extends Component {
             return;
         }
 
-        if (event.nativeEvent.contentOffset.y <= -100) {
+        if (event.nativeEvent.contentOffset.y <= -150) {
 
             this.setState({
                 showProgress: true,
@@ -237,7 +237,7 @@ class Friends extends Component {
             });
 
             setTimeout(() => {
-                this.getFavoritesMovies()
+                this.getFriends()
             }, 100);
         }
     }

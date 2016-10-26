@@ -145,7 +145,7 @@ class FriendAdd extends Component {
     }
 
     render() {
-        var errorCtrl;
+        var errorCtrl, validCtrl;
 
         if (this.state.serverError) {
             errorCtrl = <Text style={styles.error}>
@@ -153,12 +153,23 @@ class FriendAdd extends Component {
             </Text>;
         }
 
-        var validCtrl = <View />;
-
         if (this.state.invalidValue) {
             validCtrl = <Text style={styles.error}>
                 Value required - please provide.
             </Text>;
+        }
+
+        if (this.state.showProgress) {
+            return (
+                <View style={{
+                    flex: 1,
+                    justifyContent: 'center'
+                }}>
+                    <ActivityIndicator
+                        size="large"
+                        animating={true}/>
+                </View>
+            );
         }
 
         return (
@@ -168,6 +179,7 @@ class FriendAdd extends Component {
                     padding: 5,
                     justifyContent: 'flex-start'
                 }}>
+
 
                     <Text style={{
                         fontSize: 24,
@@ -219,11 +231,7 @@ class FriendAdd extends Component {
 
                     {errorCtrl}
 
-                    <ActivityIndicator
-                        animating={this.state.showProgress}
-                        size="large"
-                        style={styles.loader}
-                    />
+
                 </View>
             </ScrollView>
         )
