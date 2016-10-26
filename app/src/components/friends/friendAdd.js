@@ -14,78 +14,46 @@ import {
     TabBarIOS,
     NavigatorIOS,
     TextInput,
-    AsyncStorage
+    AsyncStorage,
+    DatePickerIOS
 } from 'react-native';
-
-//import Users from './users';
 
 class FriendAdd extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            showProgress: false
+            showProgress: false,
+            date: new Date(),
+            timeZoneOffsetInHours: (-1) * (new Date()).getTimezoneOffset() / 60
         }
     }
 
-    addUser() {
-        if (this.state.name == undefined ||
-            this.state.pass == undefined ||
-            this.state.description == undefined) {
-            this.setState({
-                invalidValue: true
-            });
-            return;
-        }
-
-        this.setState({
-            showProgress: true
-        });
-
-        var id = +new Date;
-
-        fetch('http://ui-budget.herokuapp.com/api/users/add/', {
-            method: 'POST',
-            body: JSON.stringify({
-                id: id,
-                name: this.state.name,
-                pass: this.state.pass,
-                description: this.state.description
-            }),
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            }
-        })
-            .then((response)=> response.json())
-            .then((responseData)=> {
-                this.props.navigator.pop()
-            })
-            .catch((error)=> {
-                console.log(error);
-                this.setState({
-                    serverError: true
-                });
-            })
-            .finally(()=> {
-                this.setState({
-                    showProgress: false
-                });
-            });
-    }
+    onDateChange = (date) => {
+        this.setState({date: date});
+        console.log(date.getFullYear());
+        console.log(date.getDate());
+        console.log(date.getMonth());
+    };
 
     getSignName(bdate) {
         var signName;
-        var parseDate = bdate.split("/");
-        var day = parseDate[1];
-        var month = parseDate[0].replace('0', '');
+        console.log(bdate);
+        //var parseDate = bdate.split("/");
+        //var day = parseDate[1];
+        //var month = parseDate[0].replace('0', '');
+
+        var day = bdate.getDate();
+        var month = bdate.getMonth() * 1 + 1;
+
+        console.log(day + ' - ' + month);
 
         var zodiac = ['', 'Capricorn', 'Aquarius', 'Pisces', 'Aries', 'Taurus', 'Gemini', 'Cancer', 'Leo',
             'Virgo', 'Libra', 'Scorpio', 'Sagittarius', 'Capricorn'];
         var last_day = ['', 19, 18, 20, 20, 21, 21, 22, 22, 21, 22, 21, 20, 19];
 
         if (last_day[month] < day) {
-            signName = zodiac[month * 1 + 1];
+            signName = zodiac[month  + 1];
         } else {
             signName = zodiac[month];
         }
@@ -97,10 +65,6 @@ class FriendAdd extends Component {
     }
 
     localStorageInsert() {
-        this.setState({
-            showProgress: true
-        });
-
         if (this.state.name == undefined ||
             this.state.date == undefined ||
             this.state.description == undefined) {
@@ -110,15 +74,21 @@ class FriendAdd extends Component {
             return;
         }
 
+        this.setState({
+            showProgress: true
+        });
+
         var friends = [];
         var id = +new Date;
 
         var sign = this.getSignName(this.state.date);
 
+        var bdate = (this.state.date.getMonth()+1) + '/' + this.state.date.getDate() + '/' + this.state.date.getFullYear();
+
         var item = {
             id: id,
             name: this.state.name,
-            date: this.state.date,
+            date: bdate,
             sign: sign,
             description: this.state.description
         };
@@ -180,7 +150,6 @@ class FriendAdd extends Component {
                     justifyContent: 'flex-start'
                 }}>
 
-
                     <Text style={{
                         fontSize: 24,
                         textAlign: 'center',
@@ -190,6 +159,22 @@ class FriendAdd extends Component {
                         New friend
                     </Text>
 
+                    <Text style={{
+                        fontSize: 16,
+                        textAlign: 'center',
+                        marginTop: 15,
+                        fontWeight: "bold"
+                    }}>
+                        Date of birth
+                    </Text>
+
+                    <DatePickerIOS
+                        date={this.state.date}
+                        mode="date"
+                        timeZoneOffsetInMinutes={this.state.timeZoneOffsetInHours * 60}
+                        onDateChange={this.onDateChange}
+                    />
+
                     <TextInput
                         onChangeText={(text)=> this.setState({
                             name: text,
@@ -198,16 +183,6 @@ class FriendAdd extends Component {
                         style={styles.loginInput}
                         value={this.state.name}
                         placeholder="Name">
-                    </TextInput>
-
-                    <TextInput
-                        onChangeText={(text)=> this.setState({
-                            date: text,
-                            invalidValue: false
-                        })}
-                        style={styles.loginInput}
-                        value={this.state.date}
-                        placeholder="Date of birth (mm/dd/year)">
                     </TextInput>
 
                     <TextInput

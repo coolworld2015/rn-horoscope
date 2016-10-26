@@ -105,7 +105,7 @@ class AppContainer extends Component {
                                 {/*return;*/}
 
                                 this.refs.emp.navigator.push({
-                                    title: "New friend",
+                                    title: "New",
                                     component: FriendAdd
                                 });
                             }
