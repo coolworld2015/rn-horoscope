@@ -90,6 +90,9 @@ class FriendAdd extends Component {
             signName = zodiac[month];
         }
 
+        if (signName == undefined) {
+            signName = 'Capricorn';
+        }
         return signName;
     }
 
