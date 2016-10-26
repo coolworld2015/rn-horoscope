@@ -31,7 +31,6 @@ class Signs extends Component {
 
         this.state = {
             dataSource: ds.cloneWithRows([]),
-            searchQuery: props.searchQuery,
             resultsCount: 0,
             showProgress: true
         };
@@ -230,7 +229,8 @@ class Signs extends Component {
         if (event.nativeEvent.contentOffset.y <= -150) {
             this.setState({
                 showProgress: true,
-                resultsCount: 0
+                resultsCount: 0,
+                searchQuery: ''
             });
 
             setTimeout(() => {
@@ -250,6 +250,7 @@ class Signs extends Component {
         this.setState({
             dataSource: this.state.dataSource.cloneWithRows(items),
             resultsCount: items.length,
+            searchQuery: text
         })
     }
 
@@ -286,6 +287,7 @@ class Signs extends Component {
                         borderRadius: 0
                     }}
                                onChangeText={this.onChangeText.bind(this)}
+                               value={this.state.searchQuery}
                                placeholder="Search here">
                     </TextInput>
 

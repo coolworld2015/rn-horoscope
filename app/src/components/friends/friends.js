@@ -30,7 +30,6 @@ class Friends extends Component {
 
         this.state = {
             dataSource: ds.cloneWithRows([]),
-            searchQuery: props.searchQuery,
             showProgress: true,
             resultsCount: 0
         };
@@ -233,7 +232,8 @@ class Friends extends Component {
 
             this.setState({
                 showProgress: true,
-                resultsCount: 0
+                resultsCount: 0,
+                searchQuery: ''
             });
 
             setTimeout(() => {
@@ -253,6 +253,7 @@ class Friends extends Component {
         this.setState({
             dataSource: this.state.dataSource.cloneWithRows(items),
             resultsCount: items.length,
+            searchQuery: text
         })
     }
 
@@ -289,6 +290,7 @@ class Friends extends Component {
                         borderRadius: 0,
                     }}
                                onChangeText={this.onChangeText.bind(this)}
+                               value={this.state.searchQuery}
                                placeholder="Search here">
                     </TextInput>
 
