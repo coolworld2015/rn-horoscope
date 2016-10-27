@@ -234,7 +234,12 @@ class Signs extends Component {
             });
 
             setTimeout(() => {
-                    this.getSignsList();
+                //this.getSignsList();
+                this.setState({
+                    showProgress: false,
+                    resultsCount: 12,
+                    dataSource: this.state.responseData
+                });
             }, 300);
         }
     }
