@@ -235,7 +235,7 @@ class Signs extends Component {
 
             setTimeout(() => {
                     this.getSignsList();
-            }, 100);
+            }, 300);
         }
     }
 
