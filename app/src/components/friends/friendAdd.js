@@ -148,7 +148,6 @@ class FriendAdd extends Component {
                     padding: 5,
                     justifyContent: 'flex-start'
                 }}>
-
                     <Text style={{
                         fontSize: 24,
                         textAlign: 'center',
@@ -157,6 +156,25 @@ class FriendAdd extends Component {
                     }}>
                         New friend
                     </Text>
+
+                    <Text style={{
+                        fontSize: 16,
+                        textAlign: 'center',
+                        marginTop: 15,
+                        fontWeight: "bold"
+                    }}>
+                        Name
+                    </Text>
+
+                    <TextInput
+                        onChangeText={(text)=> this.setState({
+                            name: text,
+                            invalidValue: false
+                        })}
+                        style={styles.loginInput}
+                        value={this.state.name}
+                        placeholder="Name">
+                    </TextInput>
 
                     <Text style={{
                         fontSize: 16,
@@ -174,15 +192,7 @@ class FriendAdd extends Component {
                         onDateChange={this.onDateChange}
                     />
 
-                    <TextInput
-                        onChangeText={(text)=> this.setState({
-                            name: text,
-                            invalidValue: false
-                        })}
-                        style={styles.loginInput}
-                        value={this.state.name}
-                        placeholder="Name">
-                    </TextInput>
+
 
                     {/*<TextInput*/}
                     {/*onChangeText={(text)=> this.setState({*/}
