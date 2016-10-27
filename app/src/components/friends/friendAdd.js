@@ -53,7 +53,7 @@ class FriendAdd extends Component {
         var last_day = ['', 19, 18, 20, 20, 21, 21, 22, 22, 21, 22, 21, 20, 19];
 
         if (last_day[month] < day) {
-            signName = zodiac[month  + 1];
+            signName = zodiac[month + 1];
         } else {
             signName = zodiac[month];
         }
@@ -66,8 +66,7 @@ class FriendAdd extends Component {
 
     localStorageInsert() {
         if (this.state.name == undefined ||
-            this.state.date == undefined ||
-            this.state.description == undefined) {
+            this.state.date == undefined) {
             this.setState({
                 invalidValue: true
             });
@@ -83,7 +82,7 @@ class FriendAdd extends Component {
 
         var sign = this.getSignName(this.state.date);
 
-        var bdate = (this.state.date.getMonth()+1) + '/' + this.state.date.getDate() + '/' + this.state.date.getFullYear();
+        var bdate = (this.state.date.getMonth() + 1) + '/' + this.state.date.getDate() + '/' + this.state.date.getFullYear();
 
         var item = {
             id: id,
@@ -185,23 +184,23 @@ class FriendAdd extends Component {
                         placeholder="Name">
                     </TextInput>
 
-                    <TextInput
-                        onChangeText={(text)=> this.setState({
-                            description: text,
-                            invalidValue: false
-                        })}
-                        style={styles.descriptionInput}
-                        value={this.state.description}
-                        multiline={true}
-                        placeholder="Description">
-                    </TextInput>
+                    {/*<TextInput*/}
+                    {/*onChangeText={(text)=> this.setState({*/}
+                    {/*description: text,*/}
+                    {/*invalidValue: false*/}
+                    {/*})}*/}
+                    {/*style={styles.descriptionInput}*/}
+                    {/*value={this.state.description}*/}
+                    {/*multiline={true}*/}
+                    {/*placeholder="Description">*/}
+                    {/*</TextInput>*/}
 
                     {validCtrl}
 
                     <TouchableHighlight
                         onPress={()=> this.localStorageInsert()}
                         style={styles.button}>
-                        <Text style={styles.buttonText}>New</Text>
+                        <Text style={styles.buttonText}>Add</Text>
                     </TouchableHighlight>
 
                     {errorCtrl}

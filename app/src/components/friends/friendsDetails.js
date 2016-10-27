@@ -193,9 +193,9 @@ class FriendsDetails extends Component {
                         Date of birth: {this.state.date}
                     </Text>
 
-                    <Text style={styles.welcome1}>
-                        Description: {this.state.description}
-                    </Text>
+                    {/*<Text style={styles.welcome1}>*/}
+                        {/*Description: {this.state.description}*/}
+                    {/*</Text>*/}
 
                 </View>
             </ScrollView>
