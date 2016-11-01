@@ -240,7 +240,7 @@ class Signs extends Component {
                     resultsCount: 12,
                     dataSource: this.state.responseData
                 });
-            }, 300);
+            }, 1000);
         }
     }
 

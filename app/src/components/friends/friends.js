@@ -238,7 +238,7 @@ class Friends extends Component {
 
             setTimeout(() => {
                 this.getFriends()
-            }, 300);
+            }, 1000);
         }
     }
 
