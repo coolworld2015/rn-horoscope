@@ -269,7 +269,8 @@ class Friends extends Component {
         if (this.state.showProgress) {
             loader = <View style={{
                 justifyContent: 'center',
-                height: 100
+                height: 100,
+                backgroundColor: 'black'
             }}>
                 <ActivityIndicator
                     size="large"
@@ -284,13 +285,15 @@ class Friends extends Component {
                         height: 45,
                         marginTop: 4,
                         padding: 5,
-                        backgroundColor: 'white',
                         borderWidth: 3,
                         borderColor: 'lightgray',
                         borderRadius: 0,
+                        backgroundColor: 'black',
+                        color: 'white'
                     }}
                                onChangeText={this.onChangeText.bind(this)}
                                value={this.state.searchQuery}
+                               placeholderTextColor="white"
                                placeholder="Search here">
                     </TextInput>
 
@@ -300,8 +303,8 @@ class Friends extends Component {
 
                 {loader}
 
-                <ScrollView
-                    onScroll={this.refreshData.bind(this)} scrollEventThrottle={16}>
+                <ScrollView style={{backgroundColor: 'black'}}
+                            onScroll={this.refreshData.bind(this)} scrollEventThrottle={16}>
                     <ListView
                         style={{marginTop: -65, marginBottom: -45}}
                         dataSource={this.state.dataSource}
@@ -329,7 +332,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         borderColor: '#D7D7D7',
         borderBottomWidth: 1,
-        backgroundColor: '#fff'
+        backgroundColor: 'black'
     },
     countHeader: {
         fontSize: 16,
@@ -342,11 +345,13 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         padding: 10,
         borderColor: '#D7D7D7',
-        backgroundColor: 'whitesmoke'
+        backgroundColor: 'black',
+        color: 'white'
     },
     text: {
         fontSize: 16,
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        color: 'white'
     },
     img: {
         height: 95,

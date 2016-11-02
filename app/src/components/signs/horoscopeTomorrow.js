@@ -205,7 +205,8 @@ class HoroscopeTomorrow extends Component {
             return (
                 <View style={{
                     flex: 1,
-                    justifyContent: 'center'
+                    justifyContent: 'center',
+                    backgroundColor: 'black'
                 }}>
                     <ActivityIndicator
                         size="large"

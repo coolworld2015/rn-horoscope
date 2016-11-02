@@ -149,7 +149,8 @@ class FriendsDetails extends Component {
             return (
                 <View style={{
                     flex: 1,
-                    justifyContent: 'center'
+                    justifyContent: 'center',
+                    backgroundColor: 'black'
                 }}>
                     <ActivityIndicator
                         size="large"
@@ -159,10 +160,9 @@ class FriendsDetails extends Component {
         }
 
         return (
-            <ScrollView>
+            <ScrollView style={{backgroundColor: 'black'}}>
                 <View style={{
                     flex: 1,
-                    //padding: 10,
                     justifyContent: 'flex-start',
                     alignItems: 'center',
                     marginTop: 65,
@@ -193,10 +193,6 @@ class FriendsDetails extends Component {
                         Date of birth: {this.state.date}
                     </Text>
 
-                    {/*<Text style={styles.welcome1}>*/}
-                        {/*Description: {this.state.description}*/}
-                    {/*</Text>*/}
-
                 </View>
             </ScrollView>
         );
@@ -220,12 +216,14 @@ const styles = StyleSheet.create({
         fontSize: 18,
         textAlign: 'center',
         margin: 10,
+        color: 'white'
     },
     welcome1: {
         fontSize: 18,
         textAlign: 'center',
         margin: 10,
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        color: 'white'
     },
     container: {
         backgroundColor: '#F5FCFF',

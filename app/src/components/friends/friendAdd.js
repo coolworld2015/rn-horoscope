@@ -142,7 +142,7 @@ class FriendAdd extends Component {
         }
 
         return (
-            <ScrollView>
+            <ScrollView style={{backgroundColor: 'black'}}>
                 <View style={{
                     flex: 1,
                     padding: 5,
@@ -152,7 +152,8 @@ class FriendAdd extends Component {
                         fontSize: 24,
                         textAlign: 'center',
                         marginTop: 5,
-                        fontWeight: "bold"
+                        fontWeight: "bold",
+                        color: 'white'
                     }}>
                         New friend
                     </Text>
@@ -161,7 +162,8 @@ class FriendAdd extends Component {
                         fontSize: 16,
                         textAlign: 'center',
                         marginTop: 15,
-                        fontWeight: "bold"
+                        fontWeight: "bold",
+                        color: 'white'
                     }}>
                         Name
                     </Text>
@@ -173,37 +175,29 @@ class FriendAdd extends Component {
                         })}
                         style={styles.loginInput}
                         value={this.state.name}
-                        placeholder="Name">
+                        placeholderTextColor="white"
+                        placeholder="Enter name here">
                     </TextInput>
 
                     <Text style={{
                         fontSize: 16,
                         textAlign: 'center',
-                        marginTop: 15,
-                        fontWeight: "bold"
+                        margin: 15,
+                        fontWeight: "bold",
+                        color: 'white'
                     }}>
                         Date of birth
                     </Text>
 
-                    <DatePickerIOS
-                        date={this.state.date}
-                        mode="date"
-                        timeZoneOffsetInMinutes={this.state.timeZoneOffsetInHours * 60}
-                        onDateChange={this.onDateChange}
-                    />
-
-
-
-                    {/*<TextInput*/}
-                    {/*onChangeText={(text)=> this.setState({*/}
-                    {/*description: text,*/}
-                    {/*invalidValue: false*/}
-                    {/*})}*/}
-                    {/*style={styles.descriptionInput}*/}
-                    {/*value={this.state.description}*/}
-                    {/*multiline={true}*/}
-                    {/*placeholder="Description">*/}
-                    {/*</TextInput>*/}
+                    <View style={{backgroundColor: 'darkgray'}}>
+                        <DatePickerIOS
+                            date={this.state.date}
+                            mode="date"
+                            textColor="white"
+                            timeZoneOffsetInMinutes={this.state.timeZoneOffsetInHours * 60}
+                            onDateChange={this.onDateChange}
+                        />
+                    </View>
 
                     {validCtrl}
 
@@ -246,6 +240,7 @@ const styles = StyleSheet.create({
         fontSize: 20,
         textAlign: 'center',
         margin: 20,
+        color: 'white'
     },
     loginInput: {
         height: 50,
@@ -255,7 +250,8 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: 'lightgray',
         borderRadius: 0,
-        color: 'black'
+        color: 'white',
+        //fontWeight: "bold"
     },
     descriptionInput: {
         height: 150,
@@ -272,7 +268,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#48BBEC',
         borderColor: '#48BBEC',
         alignSelf: 'stretch',
-        marginTop: 10,
+        marginTop: 20,
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 5

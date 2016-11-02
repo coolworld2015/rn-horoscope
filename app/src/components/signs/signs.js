@@ -281,8 +281,8 @@ class Signs extends Component {
         }
 
         return (
-            <View style={{flex: 1, justifyContent: 'center'}}>
-                <View style={{marginTop: 60}}>
+            <View style={{flex: 1, justifyContent: 'center', backgroundColor: 'black'}}>
+                <View style={{marginTop: 60, backgroundColor: 'black'}}>
                     <TextInput style={{
                         height: 45,
                         marginTop: 4,
@@ -306,7 +306,7 @@ class Signs extends Component {
                 {loader}
 
                 <ScrollView style={{backgroundColor: 'black'}}
-                    onScroll={this.refreshData.bind(this)} scrollEventThrottle={16}>
+                            onScroll={this.refreshData.bind(this)} scrollEventThrottle={16}>
                     <ListView
                         style={{marginTop: -65, marginBottom: -45}}
                         dataSource={this.state.dataSource}
