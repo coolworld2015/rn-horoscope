@@ -156,7 +156,7 @@ class HoroscopeDetails extends Component {
         }
 
         return (
-            <ScrollView>
+            <ScrollView style={{backgroundColor: 'black'}}>
                 <View style={{
                     flex: 1,
                     justifyContent: 'flex-start',
@@ -200,12 +200,14 @@ const styles = StyleSheet.create({
         fontSize: 18,
         textAlign: 'center',
         margin: 10,
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        color: 'white'
     },
     welcome1: {
         fontSize: 18,
         textAlign: 'center',
-        margin: 10
+        margin: 10,
+        color: 'white'
     },
     container: {
         backgroundColor: '#F5FCFF',
