@@ -270,7 +270,7 @@ class Friends extends Component {
             loader = <View style={{
                 justifyContent: 'center',
                 height: 100,
-                backgroundColor: 'black'
+                backgroundColor: 'white'
             }}>
                 <ActivityIndicator
                     size="large"
@@ -288,12 +288,12 @@ class Friends extends Component {
                         borderWidth: 3,
                         borderColor: 'lightgray',
                         borderRadius: 0,
-                        backgroundColor: 'black',
-                        color: 'white'
+                        backgroundColor: 'white',
+                        color: 'black'
                     }}
                                onChangeText={this.onChangeText.bind(this)}
                                value={this.state.searchQuery}
-                               placeholderTextColor="white"
+                               placeholderTextColor="gray"
                                placeholder="Search here">
                     </TextInput>
 
@@ -303,7 +303,7 @@ class Friends extends Component {
 
                 {loader}
 
-                <ScrollView style={{backgroundColor: 'black'}}
+                <ScrollView style={{backgroundColor: 'white'}}
                             onScroll={this.refreshData.bind(this)} scrollEventThrottle={16}>
                     <ListView
                         style={{marginTop: -65, marginBottom: -45}}
@@ -332,7 +332,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         borderColor: '#D7D7D7',
         borderBottomWidth: 1,
-        backgroundColor: 'black'
+        backgroundColor: 'white'
     },
     countHeader: {
         fontSize: 16,
@@ -345,13 +345,13 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         padding: 10,
         borderColor: '#D7D7D7',
-        backgroundColor: 'black',
-        color: 'white'
+        backgroundColor: 'white',
+        color: 'black'
     },
     text: {
         fontSize: 16,
         fontWeight: 'bold',
-        color: 'white'
+        color: 'black'
     },
     img: {
         height: 95,

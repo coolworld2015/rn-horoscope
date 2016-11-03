@@ -142,7 +142,7 @@ class FriendAdd extends Component {
         }
 
         return (
-            <ScrollView style={{backgroundColor: 'black'}}>
+            <ScrollView style={{backgroundColor: 'white'}}>
                 <View style={{
                     flex: 1,
                     padding: 5,
@@ -153,7 +153,7 @@ class FriendAdd extends Component {
                         textAlign: 'center',
                         marginTop: 5,
                         fontWeight: "bold",
-                        color: 'white'
+                        color: 'black'
                     }}>
                         New friend
                     </Text>
@@ -163,7 +163,7 @@ class FriendAdd extends Component {
                         textAlign: 'center',
                         marginTop: 15,
                         fontWeight: "bold",
-                        color: 'white'
+                        color: 'black'
                     }}>
                         Name
                     </Text>
@@ -175,7 +175,7 @@ class FriendAdd extends Component {
                         })}
                         style={styles.loginInput}
                         value={this.state.name}
-                        placeholderTextColor="white"
+                        placeholderTextColor="gray"
                         placeholder="Enter name here">
                     </TextInput>
 
@@ -184,16 +184,16 @@ class FriendAdd extends Component {
                         textAlign: 'center',
                         margin: 15,
                         fontWeight: "bold",
-                        color: 'white'
+                        color: 'black'
                     }}>
                         Date of birth
                     </Text>
 
-                    <View style={{backgroundColor: 'darkgray'}}>
+                    <View style={{backgroundColor: 'white', marginTop: -15}}>
                         <DatePickerIOS
                             date={this.state.date}
                             mode="date"
-                            textColor="white"
+                            textColor="black"
                             timeZoneOffsetInMinutes={this.state.timeZoneOffsetInHours * 60}
                             onDateChange={this.onDateChange}
                         />
@@ -240,7 +240,7 @@ const styles = StyleSheet.create({
         fontSize: 20,
         textAlign: 'center',
         margin: 20,
-        color: 'white'
+        color: 'black'
     },
     loginInput: {
         height: 50,
@@ -250,7 +250,7 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: 'lightgray',
         borderRadius: 0,
-        color: 'white',
+        color: 'black',
         //fontWeight: "bold"
     },
     descriptionInput: {

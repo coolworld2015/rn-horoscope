@@ -206,7 +206,7 @@ class HoroscopeTomorrow extends Component {
                 <View style={{
                     flex: 1,
                     justifyContent: 'center',
-                    backgroundColor: 'black'
+                    backgroundColor: 'white'
                 }}>
                     <ActivityIndicator
                         size="large"
@@ -216,7 +216,7 @@ class HoroscopeTomorrow extends Component {
         }
 
         return (
-            <ScrollView style={{backgroundColor: 'black'}}>
+            <ScrollView style={{backgroundColor: 'white'}}>
                 <View style={{
                     flex: 1,
                     justifyContent: 'flex-start',
@@ -261,13 +261,13 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         margin: 10,
         fontWeight: 'bold',
-        color: 'white'
+        color: 'black'
     },
     welcome1: {
         fontSize: 18,
         textAlign: 'center',
         margin: 10,
-        color: 'white'
+        color: 'black'
     },
     container: {
         backgroundColor: '#F5FCFF',

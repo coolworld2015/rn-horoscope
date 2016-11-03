@@ -272,7 +272,7 @@ class Signs extends Component {
             loader = <View style={{
                 justifyContent: 'center',
                 height: 100,
-                backgroundColor: 'black'
+                backgroundColor: 'white'
             }}>
                 <ActivityIndicator
                     size="large"
@@ -281,8 +281,8 @@ class Signs extends Component {
         }
 
         return (
-            <View style={{flex: 1, justifyContent: 'center', backgroundColor: 'black'}}>
-                <View style={{marginTop: 60, backgroundColor: 'black'}}>
+            <View style={{flex: 1, justifyContent: 'center', backgroundColor: 'white'}}>
+                <View style={{marginTop: 60, backgroundColor: 'white'}}>
                     <TextInput style={{
                         height: 45,
                         marginTop: 4,
@@ -290,12 +290,12 @@ class Signs extends Component {
                         borderWidth: 3,
                         borderColor: 'lightgray',
                         borderRadius: 0,
-                        backgroundColor: 'black',
-                        color: 'white'
+                        backgroundColor: 'white',
+                        color: 'black'
                     }}
                                onChangeText={this.onChangeText.bind(this)}
                                value={this.state.searchQuery}
-                               placeholderTextColor="white"
+                               placeholderTextColor="gray"
                                placeholder="Search here">
                     </TextInput>
 
@@ -305,7 +305,7 @@ class Signs extends Component {
 
                 {loader}
 
-                <ScrollView style={{backgroundColor: 'black'}}
+                <ScrollView style={{backgroundColor: 'white'}}
                             onScroll={this.refreshData.bind(this)} scrollEventThrottle={16}>
                     <ListView
                         style={{marginTop: -65, marginBottom: -45}}
@@ -333,20 +333,20 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         borderColor: '#D7D7D7',
         borderBottomWidth: 1,
-        backgroundColor: 'black'
+        backgroundColor: 'white'
     },
     text: {
         fontSize: 16,
         fontWeight: 'bold',
-        color: 'white'
+        color: 'black'
     },
     countFooter: {
         fontSize: 16,
         textAlign: 'center',
         padding: 10,
         borderColor: '#D7D7D7',
-        backgroundColor: 'black',
-        color: 'white'
+        backgroundColor: 'white',
+        color: 'black'
     },
     img: {
         height: 95,
